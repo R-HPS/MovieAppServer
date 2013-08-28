@@ -1,0 +1,7 @@
+/bin
+/.apt_generated
+/.cache
+/.settings
+/endpoint-libs
+/target
+/www-test 
