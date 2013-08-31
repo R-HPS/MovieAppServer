@@ -34,6 +34,28 @@ public class UserService {
         map.put("password", Encrypter.getHash(password));
         return createUser(map);
     }
+    
+    public static User getUserByKey(Key key) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.key.equal(key))
+                .asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public static User getUserByUserId(String userId) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.userId.equal(userId))
+                .asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public static User getUserByEmail(String email) {
         try {
