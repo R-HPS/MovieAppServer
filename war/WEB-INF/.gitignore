@@ -1,2 +1,5 @@
 /appengine-generated
 /classes
+
+*.discovery
+*.api

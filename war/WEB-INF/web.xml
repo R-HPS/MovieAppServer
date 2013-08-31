@@ -108,7 +108,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>jp.ac.titech.itpro.sds.fragile.api.FriendV1Endpoint,jp.ac.titech.itpro.sds.fragile.api.GetFriendV1Endpoint,jp.ac.titech.itpro.sds.fragile.api.GetShareTimeV1Endpoint,jp.ac.titech.itpro.sds.fragile.api.GroupV1Endpoint,jp.ac.titech.itpro.sds.fragile.api.LoginV1Endpoint,jp.ac.titech.itpro.sds.fragile.api.RegisterV1Endpoint,jp.ac.titech.itpro.sds.fragile.api.ScheduleV1EndPoint</param-value>
+   <param-value>jp.recruit.hps.movie.server.api.MovieV1EndPoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>
