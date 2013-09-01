@@ -2,6 +2,7 @@ package jp.recruit.hps.movie.server.service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.MovieMeta;
@@ -33,6 +34,17 @@ public class MovieService {
         map.put("fileName", fileName);
         map.put("uploadDate", uploadDate);
         return createMovie(map, user);
+    }
+    
+    public static List<Movie> getMovieListByUseKey (Key userKey) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.userRef.equal(userKey))
+                .asList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Movie getMovieByFileNameAndUserKey(String fileName, Key userKey) {
