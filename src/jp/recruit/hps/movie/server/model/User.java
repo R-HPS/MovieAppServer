@@ -18,14 +18,20 @@ public class User implements Serializable {
     @Attribute(version = true)
     private Long version;
 
-    @Attribute(name = "uI")
-    private String userId;
+    @Attribute(name = "i")
+    private Long id;
 
     @Attribute(name = "eM")
     private String email;
 
     @Attribute(name = "pW")
     private String password;
+    
+    @Attribute(name = "fN")
+    private String firstName;
+    
+    @Attribute(name = "lN")
+    private String lastName;
 
     /**
      * Returns the key.
@@ -95,12 +101,12 @@ public class User implements Serializable {
         return true;
     }
 
-    public String getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -117,5 +123,21 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

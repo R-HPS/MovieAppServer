@@ -1,6 +1,7 @@
 package jp.recruit.hps.movie.server.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.UserMeta;
@@ -21,37 +22,25 @@ public class UserService {
         Key key = Datastore.allocateId(User.class);
         BeanUtil.copy(input, user);
         user.setKey(key);
+        user.setId(key.getId());
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(user);
         tx.commit();
         return user;
     }
 
-    public static User createUser(String userId, String email, String password) {
+    public static User createUser(String email, String password, String firstName, String lastName) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("userId", userId);
         map.put("email", email);
         map.put("password", Encrypter.getHash(password));
+        map.put("firstName", firstName);
+        map.put("lastName", lastName);
         return createUser(map);
     }
-    
+
     public static User getUserByKey(Key key) {
         try {
-            return Datastore
-                .query(meta)
-                .filter(meta.key.equal(key))
-                .asSingle();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
-    public static User getUserByUserId(String userId) {
-        try {
-            return Datastore
-                .query(meta)
-                .filter(meta.userId.equal(userId))
-                .asSingle();
+            return Datastore.query(meta).filter(meta.key.equal(key)).asSingle();
         } catch (Exception e) {
             return null;
         }
@@ -76,6 +65,18 @@ public class UserService {
                     meta.email.equal(email),
                     meta.password.equal(Encrypter.getHash(password)))
                 .asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static List<User> getUserListByEmailList(List<String> emailList) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.email.in(emailList))
+                .sort(meta.id.asc)
+                .asList();
         } catch (Exception e) {
             return null;
         }

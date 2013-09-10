@@ -9,11 +9,12 @@ public class CreateSampleUserController extends Controller {
 
     @Override
     public Navigation run() throws Exception {
-        String userId = "test";
         String email = "test@test.com";
+        String lastName = "ポニー";
+        String firstName = "村山";
         String password = "";
         if (UserService.getUserByEmailAndPassword(email, password) == null) {
-            UserService.createUser(userId, email, password);
+            UserService.createUser(email, password, firstName, lastName);
         }
         return null;
     }
