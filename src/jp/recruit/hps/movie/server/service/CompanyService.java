@@ -41,4 +41,15 @@ public class CompanyService {
             return null;
         }
     }
+
+    public static List<Company> getCompanyList(String keyword) {
+        try {
+            return Datastore
+                .query(meta)
+                .filterInMemory(meta.name.contains(keyword))
+                .asList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
