@@ -1,14 +1,16 @@
 package jp.recruit.hps.movie.server.model;
 
 import java.io.Serializable;
-
-import com.google.appengine.api.datastore.Key;
+import java.util.Date;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
+import org.slim3.datastore.ModelRef;
+
+import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class User implements Serializable {
+public class Interview implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,20 +20,27 @@ public class User implements Serializable {
     @Attribute(version = true)
     private Long version;
 
-    @Attribute(name = "i")
-    private Long id;
-
-    @Attribute(name = "eM")
-    private String email;
-
-    @Attribute(name = "pW")
-    private String password;
+    @Attribute(name = "uR")
+    private ModelRef<User> userRef;
     
-    @Attribute(name = "fN")
-    private String firstName;
+    @Attribute(name = "cR")
+    private ModelRef<Company> companyRef;
+
+    @Attribute(name = "sD")
+    private Date startDate;
     
-    @Attribute(name = "lN")
-    private String lastName;
+    @Attribute(name = "eD")
+    private Date endDate;
+
+    @Attribute(name = "a")
+    private String answer;
+
+    @Attribute(name = "r")
+    private Result result;
+
+    public enum Result {
+        PASS, FAIL
+    };
 
     /**
      * Returns the key.
@@ -90,7 +99,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        User other = (User) obj;
+        Interview other = (Interview) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -100,44 +109,45 @@ public class User implements Serializable {
         }
         return true;
     }
-
-    public Long getId() {
-        return id;
+    
+    public ModelRef<User> getUserRef() {
+        return userRef;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public ModelRef<Company> getCompanyRef() {
+        return companyRef;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public String getLastName() {
-        return lastName;
+    public Result getResult() {
+        return result;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setResult(Result result) {
+        this.result = result;
     }
+
 }

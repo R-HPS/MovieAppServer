@@ -23,6 +23,7 @@ public class MovieService {
         Key key = Datastore.allocateId(Movie.class);
         BeanUtil.copy(input, movie);
         movie.setKey(key);
+        movie.getUserRef().setModel(user);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(movie);
         tx.commit();

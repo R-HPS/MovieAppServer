@@ -8,7 +8,7 @@ import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
 
 @Model(schemaVersion = 1)
-public class User implements Serializable {
+public class Company implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,21 +18,9 @@ public class User implements Serializable {
     @Attribute(version = true)
     private Long version;
 
-    @Attribute(name = "i")
-    private Long id;
-
-    @Attribute(name = "eM")
-    private String email;
-
-    @Attribute(name = "pW")
-    private String password;
+    @Attribute(name = "n")
+    private String name;
     
-    @Attribute(name = "fN")
-    private String firstName;
-    
-    @Attribute(name = "lN")
-    private String lastName;
-
     /**
      * Returns the key.
      * 
@@ -90,7 +78,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        User other = (User) obj;
+        Company other = (Company) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -101,43 +89,12 @@ public class User implements Serializable {
         return true;
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 }
