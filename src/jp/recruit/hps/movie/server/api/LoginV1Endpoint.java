@@ -43,7 +43,7 @@ public class LoginV1Endpoint {
                 } else {
                     result.setResult(SUCCESS);
                     result.setMail(user.getEmail());
-                    result.setUserName(user.getUserId());
+                    result.setId(user.getId());
                 }
             }
         } catch (Exception e) {

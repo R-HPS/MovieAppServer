@@ -13,7 +13,7 @@ public class LoginResultV1Dto {
     
     private String result;
 
-    private String userName;
+    private Long id;
 
     public String getMail() {
         return email;
@@ -31,11 +31,11 @@ public class LoginResultV1Dto {
         this.result = result;
     }
 
-    public String getUserName() {
-        return userName;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
