@@ -1,5 +1,6 @@
 package jp.recruit.hps.movie.server.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +26,25 @@ public class CompanyService {
         tx.commit();
         return company;
     }
+    
+    public static Company createCompany(String name) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", name);
+        return createCompany(map);
+    }
 
     public static Company getCompany(Key key) {
         try {
             return Datastore.query(meta).filter(meta.key.equal(key)).asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+
+    public static Company getCompanyByName(String name) {
+        try {
+            return Datastore.query(meta).filter(meta.name.equal(name)).asSingle();
         } catch (Exception e) {
             return null;
         }
