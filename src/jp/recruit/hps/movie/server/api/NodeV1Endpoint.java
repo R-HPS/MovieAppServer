@@ -27,8 +27,7 @@ public class NodeV1Endpoint {
     private static final String SUCCESS = CommonConstant.SUCCESS;
     private static final String FAIL = CommonConstant.FAIL;
 
-    public ResultV1Dto saveTree(@Named("root") NodeV1Dto root,
-            @Named("userKey") String userKey) {
+    public ResultV1Dto saveTree(@Named("userKey") String userKey, NodeV1Dto root) {
         ResultV1Dto result = new ResultV1Dto();
         try {
             User user =
