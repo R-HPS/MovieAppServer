@@ -1,13 +1,17 @@
 package jp.recruit.hps.movie.server.api;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
 import jp.recruit.hps.movie.common.CommonConstant;
+import jp.recruit.hps.movie.server.api.dto.InterviewV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
 import jp.recruit.hps.movie.server.model.Company;
+import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
 import jp.recruit.hps.movie.server.service.InterviewService;
@@ -27,6 +31,22 @@ public class InterviewV1EndPoint {
 
     private static final String SUCCESS = CommonConstant.SUCCESS;
     private static final String FAIL = CommonConstant.FAIL;
+
+    public List<InterviewV1Dto> getInterviews(
+            @Named("companyKey") String companyKey) {
+        List<InterviewV1Dto> resultList = new ArrayList<InterviewV1Dto>();
+        for (Interview interview : InterviewService
+            .getInterviewListByCompanyKey(Datastore.stringToKey(companyKey))) {
+            InterviewV1Dto dto = new InterviewV1Dto();
+            dto.setStartDate(interview.getStartDate().getTime());
+            dto.setEndDate(interview.getEndDate().getTime());
+            dto.setQuestion(interview.getQuestion());
+            dto.setAtmosphere(interview.getAtmosphere());
+            dto.setCategory(interview.getCategory());
+            resultList.add(dto);
+        }
+        return resultList;
+    }
 
     public ResultV1Dto insertInterview(@Named("userKey") String userKey,
             @Named("companyKey") String companyKey,

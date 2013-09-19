@@ -22,24 +22,34 @@ public class Interview implements Serializable {
 
     @Attribute(name = "uR")
     private ModelRef<User> userRef;
-    
+
     @Attribute(name = "cR")
     private ModelRef<Company> companyRef;
 
     @Attribute(name = "sD")
     private Date startDate;
-    
+
     @Attribute(name = "eD")
     private Date endDate;
 
     @Attribute(name = "q")
     private String question;
+    
+    @Attribute(name = "a")
+    private Integer atmosphere;
 
+    @Attribute(name = "c")    
+    public Category category;
+    
     @Attribute(name = "r")
     private Result result;
 
     public enum Result {
         PASS, FAIL
+    };
+
+    public enum Category {
+        INDIVIDUAL, GROUP, GROUP_DISCUSSION
     };
 
     /**
@@ -109,7 +119,7 @@ public class Interview implements Serializable {
         }
         return true;
     }
-    
+
     public ModelRef<User> getUserRef() {
         return userRef;
     }
@@ -148,6 +158,22 @@ public class Interview implements Serializable {
 
     public void setResult(Result result) {
         this.result = result;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Integer getAtmosphere() {
+        return atmosphere;
+    }
+
+    public void setAtmosphere(Integer atmosphere) {
+        this.atmosphere = atmosphere;
     }
 
 }

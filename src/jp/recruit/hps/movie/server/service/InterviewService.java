@@ -53,4 +53,15 @@ public class InterviewService {
             return null;
         }
     }
+    
+    public static List<Interview> getInterviewListByUserKey(Key key) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.userRef.equal(key))
+                .asList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
