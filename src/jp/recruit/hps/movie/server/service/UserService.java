@@ -29,7 +29,8 @@ public class UserService {
         return user;
     }
 
-    public static User createUser(String email, String password, String firstName, String lastName) {
+    public static User createUser(String email, String password,
+            String firstName, String lastName) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("email", email);
         map.put("password", Encrypter.getHash(password));
@@ -68,6 +69,10 @@ public class UserService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static int getUserCount(String email) {
+        return Datastore.query(meta).filter(meta.email.equal(email)).count();
     }
 
     public static List<User> getUserListByEmailList(List<String> emailList) {

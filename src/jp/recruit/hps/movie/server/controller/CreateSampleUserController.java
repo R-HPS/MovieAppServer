@@ -13,7 +13,7 @@ public class CreateSampleUserController extends Controller {
         String lastName = "ポニー";
         String firstName = "村山";
         String password = "";
-        if (UserService.getUserByEmailAndPassword(email, password) == null) {
+        if (UserService.getUserCount(email) == 0) {
             UserService.createUser(email, password, firstName, lastName);
         }
         return null;

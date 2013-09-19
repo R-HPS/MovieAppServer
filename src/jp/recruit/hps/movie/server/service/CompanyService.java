@@ -26,7 +26,7 @@ public class CompanyService {
         tx.commit();
         return company;
     }
-    
+
     public static Company createCompany(String name) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);
@@ -40,11 +40,13 @@ public class CompanyService {
             return null;
         }
     }
-    
 
     public static Company getCompanyByName(String name) {
         try {
-            return Datastore.query(meta).filter(meta.name.equal(name)).asSingle();
+            return Datastore
+                .query(meta)
+                .filter(meta.name.equal(name))
+                .asSingle();
         } catch (Exception e) {
             return null;
         }
@@ -67,5 +69,9 @@ public class CompanyService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static int getCompanyCount(String name) {
+        return Datastore.query(meta).filter(meta.name.equal(name)).count();
     }
 }

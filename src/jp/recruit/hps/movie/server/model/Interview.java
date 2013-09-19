@@ -21,10 +21,10 @@ public class Interview implements Serializable {
     private Long version;
 
     @Attribute(name = "uR")
-    private ModelRef<User> userRef;
+    private ModelRef<User> userRef = new ModelRef<User>(User.class);
 
     @Attribute(name = "cR")
-    private ModelRef<Company> companyRef;
+    private ModelRef<Company> companyRef = new ModelRef<Company>(Company.class);
 
     @Attribute(name = "sD")
     private Date startDate;

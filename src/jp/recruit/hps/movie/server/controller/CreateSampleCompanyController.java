@@ -14,7 +14,7 @@ public class CreateSampleCompanyController extends Controller {
             { "リクルートホールディングス", "リクルートキャリア", "リクルートジョブズ", "三菱商事", "フジテレビ" };
 
         for (String name : names) {
-            if (CompanyService.getCompanyByName(name) == null) {
+            if (CompanyService.getCompanyCount(name) == 0) {
                 CompanyService.createCompany(name);
             }
         }
