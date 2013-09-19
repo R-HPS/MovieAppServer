@@ -31,8 +31,7 @@ public class InterviewV1EndPoint {
     public ResultV1Dto createInterview(@Named("userKey") String userKey,
             @Named("companyKey") String companyKey,
             @Named("startTime") Long startTime, @Named("endTime") Long endTime,
-            @Named("answer") String answer,
-            @Named("isSuccess") Boolean isSuccess) {
+            @Named("answer") String answer) {
         ResultV1Dto result = new ResultV1Dto();
         User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
         Company company =
@@ -46,7 +45,7 @@ public class InterviewV1EndPoint {
                 result.setResult(FAIL);
             } else {
                 InterviewService.createInterview(user, company, new Date(
-                    startTime), new Date(endTime), answer, isSuccess);
+                    startTime), new Date(endTime), answer);
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {

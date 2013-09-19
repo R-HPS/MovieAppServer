@@ -5,14 +5,10 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
-import jp.recruit.hps.movie.server.service.UserService;
-import jp.recruit.hps.movie.server.model.User;
-import jp.recruit.hps.movie.server.utils.Encrypter;
-
 import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.server.api.dto.LoginResultV1Dto;
-
-
+import jp.recruit.hps.movie.server.model.User;
+import jp.recruit.hps.movie.server.service.UserService;
 
 import com.google.api.server.spi.config.Api;
 

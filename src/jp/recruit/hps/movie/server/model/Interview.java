@@ -32,8 +32,8 @@ public class Interview implements Serializable {
     @Attribute(name = "eD")
     private Date endDate;
 
-    @Attribute(name = "a")
-    private String answer;
+    @Attribute(name = "q")
+    private String question;
 
     @Attribute(name = "r")
     private Result result;
@@ -134,12 +134,12 @@ public class Interview implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public Result getResult() {

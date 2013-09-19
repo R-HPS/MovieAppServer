@@ -34,14 +34,11 @@ public class InterviewService {
     }
 
     public static Interview createInterview(User user, Company company,
-            Date startDate, Date endDate, String answer, Boolean isSuccess) {
+            Date startDate, Date endDate, String question) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("endDate", endDate);
-        map.put("answer", answer);
-        map.put("result", isSuccess
-            ? Interview.Result.PASS
-            : Interview.Result.FAIL);
+        map.put("question", question);
         return createInterview(map, user, company);
     }
 
@@ -50,7 +47,7 @@ public class InterviewService {
             return Datastore
                 .query(meta)
                 .filter(meta.companyRef.equal(key))
-                .sort(meta.result.asc)
+                .sort(meta.startDate.asc)
                 .asList();
         } catch (Exception e) {
             return null;
