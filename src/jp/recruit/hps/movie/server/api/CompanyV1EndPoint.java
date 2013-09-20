@@ -24,7 +24,7 @@ public class CompanyV1EndPoint {
     private final static Logger logger = Logger
         .getLogger(CompanyV1EndPoint.class.getName());
 
-    public List<CompanyV1Dto> getCompanys(@Named("userKey") String userKey) {
+    public List<CompanyV1Dto> getCompanies(@Named("userKey") String userKey) {
         List<CompanyV1Dto> resultList = new ArrayList<CompanyV1Dto>();
         try {
             List<Interview> interviewList =
