@@ -60,7 +60,7 @@ public class InterviewService {
             return Datastore
                 .query(meta)
                 .filter(meta.companyRef.equal(key))
-                .sort(meta.startDate.asc)
+                //.sort(meta.startDate.asc)
                 .asList();
         } catch (Exception e) {
             return null;
