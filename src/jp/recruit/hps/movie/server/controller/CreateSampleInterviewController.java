@@ -44,8 +44,7 @@ public class CreateSampleInterviewController extends Controller {
                     interviewGroup.getKey()) == 0) {
                 Date startDate = new Date();
                 startDate.setTime(startDate.getTime() + i * ONE_HOUR);
-                Date endDate = new Date();
-                endDate.setTime(startDate.getTime() + ONE_HOUR);
+                int duration = 30;
                 String question = questions[i];
                 Atmosphere atmosphere = Atmosphere.SUNNY;
                 Category category = Category.INDIVIDUAL;
@@ -53,7 +52,7 @@ public class CreateSampleInterviewController extends Controller {
                     user,
                     interviewGroup,
                     startDate,
-                    endDate,
+                    duration,
                     question,
                     atmosphere,
                     category);

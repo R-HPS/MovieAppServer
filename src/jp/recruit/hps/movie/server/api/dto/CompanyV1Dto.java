@@ -9,6 +9,8 @@ public class CompanyV1Dto {
     private String name;
     
     private String phase;
+    
+    private boolean wasRead;
 
     public String getName() {
         return name;
@@ -32,5 +34,13 @@ public class CompanyV1Dto {
 
     public void setPhase(String phase) {
         this.phase = phase;
+    }
+
+    public boolean isWasRead() {
+        return wasRead;
+    }
+
+    public void setWasRead(boolean wasRead) {
+        this.wasRead = wasRead;
     }
 }

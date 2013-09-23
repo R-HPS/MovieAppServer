@@ -8,7 +8,7 @@ import jp.recruit.hps.movie.server.model.Interview.Category;
 @Entity
 public class InterviewV1Dto {
     private Long startDate;
-    private Long endDate;
+    private int duration;
     private String question;
     private Atmosphere atmosphere;
     private Category category;
@@ -19,14 +19,6 @@ public class InterviewV1Dto {
 
     public void setStartDate(Long startDate) {
         this.startDate = startDate;
-    }
-
-    public Long getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Long endDate) {
-        this.endDate = endDate;
     }
 
     public String getQuestion() {
@@ -51,5 +43,13 @@ public class InterviewV1Dto {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

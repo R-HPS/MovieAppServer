@@ -29,8 +29,8 @@ public class Interview implements Serializable {
     @Attribute(name = "sD")
     private Date startDate;
 
-    @Attribute(name = "eD")
-    private Date endDate;
+    @Attribute(name = "d")
+    private int duration;
 
     @Attribute(name = "q")
     private String question;
@@ -134,14 +134,6 @@ public class Interview implements Serializable {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
     public String getQuestion() {
         return question;
     }
@@ -164,6 +156,14 @@ public class Interview implements Serializable {
 
     public void setAtmosphere(Atmosphere atmosphere) {
         this.atmosphere = atmosphere;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
 }

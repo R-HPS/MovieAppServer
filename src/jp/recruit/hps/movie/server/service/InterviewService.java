@@ -35,30 +35,28 @@ public class InterviewService {
         return interview;
     }
 
-    public static Interview createInterview(User user, InterviewGroup interviewGroup,
-            Date startDate, Date endDate, String question, Atmosphere atmosphere,
-            Category category) {
+    public static Interview createInterview(User user,
+            InterviewGroup interviewGroup, Date startDate, int duration,
+            String question, Atmosphere atmosphere, Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
-        map.put("endDate", endDate);
+        map.put("duration", duration);
         map.put("question", question);
         map.put("atmosphere", atmosphere);
         map.put("category", category);
         return createInterview(map, user, interviewGroup);
     }
 
-    public static Interview createInterview(User user, InterviewGroup interviewGroup,
-            Date startDate) {
+    public static Interview createInterview(User user,
+            InterviewGroup interviewGroup, Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         return createInterview(map, user, interviewGroup);
     }
-    
-    public static void updateInterview(Interview interview,
-            Date startDate, Date endDate, String question, Atmosphere atmosphere,
-            Category category) {
-        interview.setStartDate(startDate);
-        interview.setEndDate(endDate);
+
+    public static void updateInterview(Interview interview, int duration,
+            String question, Atmosphere atmosphere, Category category) {
+        interview.setDuration(duration);
         interview.setQuestion(question);
         interview.setAtmosphere(atmosphere);
         interview.setCategory(category);

@@ -8,9 +8,7 @@ import javax.inject.Named;
 
 import jp.recruit.hps.movie.server.api.dto.CompanyV1Dto;
 import jp.recruit.hps.movie.server.model.Company;
-import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.service.CompanyService;
-import jp.recruit.hps.movie.server.service.InterviewService;
 
 import org.slim3.datastore.Datastore;
 

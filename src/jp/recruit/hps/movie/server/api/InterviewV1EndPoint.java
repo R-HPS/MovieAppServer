@@ -40,7 +40,7 @@ public class InterviewV1EndPoint {
                 .stringToKey(interviewGroupKey))) {
             InterviewV1Dto dto = new InterviewV1Dto();
             dto.setStartDate(interview.getStartDate().getTime());
-            dto.setEndDate(interview.getEndDate().getTime());
+            dto.setDuration(interview.getDuration());
             dto.setQuestion(interview.getQuestion());
             dto.setAtmosphere(interview.getAtmosphere());
             dto.setCategory(interview.getCategory());
