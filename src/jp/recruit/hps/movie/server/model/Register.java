@@ -10,7 +10,7 @@ import org.slim3.datastore.ModelRef;
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class Interview implements Serializable {
+public class Register implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,34 +21,10 @@ public class Interview implements Serializable {
     private Long version;
 
     @Attribute(name = "uR")
-    private ModelRef<User> userRef = new ModelRef<User>(User.class);
-
-    @Attribute(name = "cR")
-    private ModelRef<InterviewGroup> interviewGroupRef = new ModelRef<InterviewGroup>(InterviewGroup.class);
-
-    @Attribute(name = "sD")
-    private Date startDate;
-
-    @Attribute(name = "eD")
-    private Date endDate;
-
-    @Attribute(name = "q")
-    private String question;
+    private ModelRef<User> userRef;
     
-    @Attribute(name = "a")
-    private Atmosphere atmosphere;
-
-    @Attribute(name = "c")    
-    public Category category;
-   
-
-    public enum Atmosphere {
-        SUNNY, CLOUDY, RAINY
-    };
-
-    public enum Category {
-        INDIVIDUAL, GROUP, GROUP_DISCUSSION
-    };
+    @Attribute(name="e")
+    private Date expire;
 
     /**
      * Returns the key.
@@ -107,7 +83,7 @@ public class Interview implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Interview other = (Interview) obj;
+        Register other = (Register) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -121,49 +97,12 @@ public class Interview implements Serializable {
     public ModelRef<User> getUserRef() {
         return userRef;
     }
-
-    public ModelRef<InterviewGroup> getInterviewGroupRef() {
-        return interviewGroupRef;
+    
+    public Date getExpire() {
+        return expire;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public void setExpire(Date expire) {
+        this.expire = expire;
     }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Atmosphere getAtmosphere() {
-        return atmosphere;
-    }
-
-    public void setAtmosphere(Atmosphere atmosphere) {
-        this.atmosphere = atmosphere;
-    }
-
 }

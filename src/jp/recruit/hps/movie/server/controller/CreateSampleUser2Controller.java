@@ -13,11 +13,8 @@ public class CreateSampleUser2Controller extends Controller {
         for (i = 0; i < 5; i++) {
             String email = "test" + i + "@hoge.ac.jp";
             String password = "";
-            String firstName = "test" + i;
-            String lastName = "test" + i;
-
             if (UserService.getUserCount(email) == 0) {
-                UserService.createUser(email, password, firstName, lastName);
+                UserService.createUser(email, password);
             }
         }
         return null;

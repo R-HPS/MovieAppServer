@@ -29,13 +29,10 @@ public class UserService {
         return user;
     }
 
-    public static User createUser(String email, String password,
-            String firstName, String lastName) {
+    public static User createUser(String email, String password) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("email", email);
         map.put("password", Encrypter.getHash(password));
-        map.put("firstName", firstName);
-        map.put("lastName", lastName);
         return createUser(map);
     }
 

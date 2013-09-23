@@ -2,10 +2,10 @@ package jp.recruit.hps.movie.server.model;
 
 import java.io.Serializable;
 
-import com.google.appengine.api.datastore.Key;
-
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
+
+import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
 public class User implements Serializable {
@@ -26,12 +26,16 @@ public class User implements Serializable {
 
     @Attribute(name = "pW")
     private String password;
+
+    @Attribute(name = "p")
+    private int point;
     
-    @Attribute(name = "fN")
-    private String firstName;
-    
-    @Attribute(name = "lN")
-    private String lastName;
+    @Attribute(name = "s")
+    private State state;
+
+    public enum State {
+        ACTIVE, PAUSE, FORBID
+    };
 
     /**
      * Returns the key.
@@ -125,19 +129,19 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public int getPoint() {
+        return point;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPoint(int point) {
+        this.point = point;
     }
 
-    public String getLastName() {
-        return lastName;
+    public State getState() {
+        return state;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setState(State state) {
+        this.state = state;
     }
 }

@@ -8,6 +8,7 @@ import javax.inject.Named;
 import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.server.api.dto.LoginResultV1Dto;
 import jp.recruit.hps.movie.server.model.User;
+import jp.recruit.hps.movie.server.model.User.State;
 import jp.recruit.hps.movie.server.service.UserService;
 
 import com.google.api.server.spi.config.Api;
@@ -34,7 +35,7 @@ public class LoginV1Endpoint {
             } else {
                 User user =
                     UserService.getUserByEmailAndPassword(email, password);
-                if (user == null) {
+                if (user == null || !user.getState().equals(State.ACTIVE)) {
                     result.setResult(FAIL);
                 } else {
                     result.setResult(SUCCESS);

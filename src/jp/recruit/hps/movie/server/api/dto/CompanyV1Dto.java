@@ -7,6 +7,8 @@ public class CompanyV1Dto {
     private String key;
     
     private String name;
+    
+    private String phase;
 
     public String getName() {
         return name;
@@ -22,5 +24,13 @@ public class CompanyV1Dto {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getPhase() {
+        return phase;
+    }
+
+    public void setPhase(String phase) {
+        this.phase = phase;
     }
 }

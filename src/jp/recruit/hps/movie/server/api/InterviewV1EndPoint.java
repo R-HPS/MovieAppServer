@@ -10,10 +10,10 @@ import javax.inject.Named;
 import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.server.api.dto.InterviewV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
-import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
+import jp.recruit.hps.movie.server.model.InterviewGroup;
 import jp.recruit.hps.movie.server.model.User;
-import jp.recruit.hps.movie.server.service.CompanyService;
+import jp.recruit.hps.movie.server.service.InterviewGroupService;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.UserService;
 
@@ -33,10 +33,11 @@ public class InterviewV1EndPoint {
     private static final String FAIL = CommonConstant.FAIL;
 
     public List<InterviewV1Dto> getInterviews(
-            @Named("companyKey") String companyKey) {
+            @Named("interviewGroupKey") String interviewGroupKey) {
         List<InterviewV1Dto> resultList = new ArrayList<InterviewV1Dto>();
         for (Interview interview : InterviewService
-            .getInterviewListByCompanyKey(Datastore.stringToKey(companyKey))) {
+            .getInterviewListByInterviewGroupKey(Datastore
+                .stringToKey(interviewGroupKey))) {
             InterviewV1Dto dto = new InterviewV1Dto();
             dto.setStartDate(interview.getStartDate().getTime());
             dto.setEndDate(interview.getEndDate().getTime());
@@ -49,23 +50,22 @@ public class InterviewV1EndPoint {
     }
 
     public ResultV1Dto insertInterview(@Named("userKey") String userKey,
-            @Named("companyKey") String companyKey,
-            @Named("startTime") Long startTime, @Named("endTime") Long endTime,
-            @Named("question") String question) {
+            @Named("interviewGroupKey") String interviewGroupKey,
+            @Named("startTime") Long startTime) {
         ResultV1Dto result = new ResultV1Dto();
         User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
-        Company company =
-            CompanyService.getCompany(Datastore.stringToKey(companyKey));
+        InterviewGroup interviewGroup =
+            InterviewGroupService.getInterviewGroup(Datastore.stringToKey(interviewGroupKey));
         try {
             if (user == null) {
                 logger.warning("user not found");
                 result.setResult(FAIL);
-            } else if (company == null) {
+            } else if (interviewGroup == null) {
                 logger.warning("company not found");
                 result.setResult(FAIL);
             } else {
-                InterviewService.createInterview(user, company, new Date(
-                    startTime), new Date(endTime), question);
+                InterviewService.createInterview(user, interviewGroup, new Date(
+                    startTime));
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {

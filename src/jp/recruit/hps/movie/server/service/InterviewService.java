@@ -36,13 +36,13 @@ public class InterviewService {
     }
 
     public static Interview createInterview(User user, InterviewGroup interviewGroup,
-            Date startDate, Date endDate, String question, int atmosphere,
+            Date startDate, Date endDate, String question, Atmosphere atmosphere,
             Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("endDate", endDate);
         map.put("question", question);
-        map.put("atomosphere", atmosphere);
+        map.put("atmosphere", atmosphere);
         map.put("category", category);
         return createInterview(map, user, interviewGroup);
     }
