@@ -8,6 +8,7 @@ import com.google.appengine.api.mail.MailService;
 import com.google.appengine.api.mail.MailServiceFactory;
 
 public class MailUtils {
+    private static String SENDER_MAIL = "aimluck.ippei.takahashi@gmail.com";
 
     public static void sendMail(String email, String key)
             throws UnsupportedEncodingException {
@@ -15,10 +16,17 @@ public class MailUtils {
 
         MailService.Message msg = new MailService.Message();
 
-        msg.setSender("aimluck.ippei.takahashi@gmail.com");
+        String CL = System.getProperty("line.separator");
+
+        msg.setSender(SENDER_MAIL);
         msg.setTo(email);
-        msg.setSubject("");
-        msg.setTextBody(key);
+        msg.setSubject("[バトン]　ご登録ありがとうございます");
+        msg.setTextBody("バトンへのご登録ありがとうございます。"
+            + CL
+            + "24時間以内に以下のURLから、登録を完了してください。"
+            + CL
+            + "https://hps-movie.appspot.com/register?key="
+            + key);
 
         MailService mailservice = MailServiceFactory.getMailService();
         try {

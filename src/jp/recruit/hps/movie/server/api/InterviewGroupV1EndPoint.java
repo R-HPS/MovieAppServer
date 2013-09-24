@@ -50,6 +50,7 @@ public class InterviewGroupV1EndPoint {
                 InterviewGroup ig = interview.getInterviewGroupRef().getModel();
                 dto.setName(ig.getCompanyRef().getModel().getName());
                 dto.setPhase(ig.getPhase());
+                dto.setStartDate(interview.getStartDate().getTime());
                 dto.setWasRead(readInterviewGroupKeyList.contains(ig.getKey()));
                 resultList.add(dto);
             }

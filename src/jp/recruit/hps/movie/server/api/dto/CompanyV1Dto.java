@@ -11,6 +11,8 @@ public class CompanyV1Dto {
     private String phase;
     
     private boolean wasRead;
+    
+    private Long startDate;
 
     public String getName() {
         return name;
@@ -42,5 +44,13 @@ public class CompanyV1Dto {
 
     public void setWasRead(boolean wasRead) {
         this.wasRead = wasRead;
+    }
+
+    public Long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Long startDate) {
+        this.startDate = startDate;
     }
 }
