@@ -26,6 +26,8 @@ public class UserService {
         user.setKey(key);
         user.setId(key.getId());
         user.getUniversityRef().setModel(university);
+        user.setPoint(3);
+        user.setState(State.PAUSE);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(user);
         tx.commit();
@@ -90,5 +92,15 @@ public class UserService {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    public static void addPoint(User user) {
+        user.setPoint(user.getPoint() + 1);
+        Datastore.put(user.getKey());
+    }
+    
+    public static void subPoint(User user) {
+        user.setPoint(user.getPoint() - 1);
+        Datastore.put(user.getKey());
     }
 }
