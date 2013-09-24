@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.UserMeta;
+import jp.recruit.hps.movie.server.model.University;
 import jp.recruit.hps.movie.server.model.User;
+import jp.recruit.hps.movie.server.model.User.State;
 import jp.recruit.hps.movie.server.utils.Encrypter;
 
 import org.slim3.datastore.Datastore;
@@ -17,23 +19,24 @@ import com.google.appengine.api.datastore.Transaction;
 public class UserService {
     private static UserMeta meta = UserMeta.get();
 
-    private static User createUser(Map<String, Object> input) {
+    private static User createUser(Map<String, Object> input, University university) {
         User user = new User();
         Key key = Datastore.allocateId(User.class);
         BeanUtil.copy(input, user);
         user.setKey(key);
         user.setId(key.getId());
+        user.getUniversityRef().setModel(university);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(user);
         tx.commit();
         return user;
     }
 
-    public static User createUser(String email, String password) {
+    public static User createUser(University university, String email, String password) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("email", email);
         map.put("password", Encrypter.getHash(password));
-        return createUser(map);
+        return createUser(map,university);
     }
 
     public static User getUserByKey(Key key) {
@@ -70,6 +73,11 @@ public class UserService {
 
     public static int getUserCount(String email) {
         return Datastore.query(meta).filter(meta.email.equal(email)).count();
+    }
+
+    public static void updateState(User user, State newState) {
+        user.setState(newState);
+        Datastore.put(user);
     }
 
     public static List<User> getUserListByEmailList(List<String> emailList) {

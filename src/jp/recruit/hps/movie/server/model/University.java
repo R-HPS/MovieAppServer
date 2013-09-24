@@ -4,12 +4,11 @@ import java.io.Serializable;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
-import org.slim3.datastore.ModelRef;
 
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class User implements Serializable {
+public class University implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,27 +18,11 @@ public class User implements Serializable {
     @Attribute(version = true)
     private Long version;
 
-    @Attribute(name = "i")
-    private Long id;
+    @Attribute(name = "n")
+    private String name;
 
-    @Attribute(name = "eM")
-    private String email;
-
-    @Attribute(name = "pW")
-    private String password;
-
-    @Attribute(name = "p")
-    private int point;
-    
-    @Attribute(name = "s")
-    private State state;
-    
-    @Attribute(name = "uR")
-    private ModelRef<University> universityRef = new ModelRef<University>(University.class);
-
-    public enum State {
-        ACTIVE, PAUSE, FORBID
-    };
+    @Attribute(name = "d")
+    private String domain;
 
     /**
      * Returns the key.
@@ -98,7 +81,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        User other = (User) obj;
+        University other = (University) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -109,47 +92,19 @@ public class User implements Serializable {
         return true;
     }
 
-    public Long getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDomain() {
+        return domain;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-    
-    public ModelRef<University> getUniversityRef() {
-        return universityRef;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 }

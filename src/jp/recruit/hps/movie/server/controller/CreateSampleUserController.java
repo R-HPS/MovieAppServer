@@ -4,10 +4,12 @@ import java.util.Date;
 
 import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.InterviewGroup;
+import jp.recruit.hps.movie.server.model.University;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
 import jp.recruit.hps.movie.server.service.InterviewGroupService;
 import jp.recruit.hps.movie.server.service.InterviewService;
+import jp.recruit.hps.movie.server.service.UniversityService;
 import jp.recruit.hps.movie.server.service.UserService;
 
 import org.slim3.controller.Controller;
@@ -21,8 +23,9 @@ public class CreateSampleUserController extends Controller {
     public Navigation run() throws Exception {
         String email = "test@test.com";
         String password = "aaaaaa";
+        University university = UniversityService.getUniversityByDomain("titech.ac.jp");
         if (UserService.getUserCount(email) == 0) {
-            UserService.createUser(email, password);
+            UserService.createUser(university, email, password);
         }
         User user = UserService.getUserByEmail(email);
         Company company1 = CompanyService.getCompanyByName("リクルートホールディングス");
