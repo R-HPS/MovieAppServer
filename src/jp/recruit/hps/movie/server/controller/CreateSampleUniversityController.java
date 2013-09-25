@@ -5,7 +5,7 @@ import jp.recruit.hps.movie.server.service.UniversityService;
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
-public class CreateSampleUniveristyController extends Controller {
+public class CreateSampleUniversityController extends Controller {
 
     @Override
     public Navigation run() throws Exception {

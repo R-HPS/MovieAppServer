@@ -49,6 +49,11 @@ public class RegisterV1Endpoint {
             result.setResult(SUCCESS);
             validateEmail(result, email);
             validatePassword(result, password, passwordAgain);
+            if (result.getErrorList().size() > 0) {
+                result.setResult(FAIL);
+            } else {
+                result.setResult(SUCCESS);
+            }
             if (SUCCESS.equals(result.getResult())) {
                 University university =
                     UniversityService.getUniversityByDomain(AddressChecker
@@ -60,11 +65,6 @@ public class RegisterV1Endpoint {
         } catch (Exception e) {
             logger.warning(e.getMessage());
             result.addError(UNEXPECTED_ERROR);
-        }
-        if (result.getErrorList().size() > 0) {
-            result.setResult(FAIL);
-        } else {
-            result.setResult(SUCCESS);
         }
         return result;
     }
