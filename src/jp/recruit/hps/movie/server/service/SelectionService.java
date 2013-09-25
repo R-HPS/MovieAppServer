@@ -3,9 +3,9 @@ package jp.recruit.hps.movie.server.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.recruit.hps.movie.server.meta.InterviewGroupMeta;
+import jp.recruit.hps.movie.server.meta.SelectionMeta;
 import jp.recruit.hps.movie.server.model.Company;
-import jp.recruit.hps.movie.server.model.InterviewGroup;
+import jp.recruit.hps.movie.server.model.Selection;
 
 import org.slim3.datastore.Datastore;
 import org.slim3.util.BeanUtil;
@@ -13,29 +13,29 @@ import org.slim3.util.BeanUtil;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 
-public class InterviewGroupService {
-    private static InterviewGroupMeta meta = InterviewGroupMeta.get();
+public class SelectionService {
+    private static SelectionMeta meta = SelectionMeta.get();
 
-    public static InterviewGroup createInterviewGroup(
+    public static Selection createSelection(
             Map<String, Object> input, Company company) {
-        InterviewGroup interviewGroup = new InterviewGroup();
-        Key key = Datastore.allocateId(InterviewGroup.class);
-        BeanUtil.copy(input, interviewGroup);
-        interviewGroup.setKey(key);
-        interviewGroup.getCompanyRef().setModel(company);
+        Selection Selection = new Selection();
+        Key key = Datastore.allocateId(Selection.class);
+        BeanUtil.copy(input, Selection);
+        Selection.setKey(key);
+        Selection.getCompanyRef().setModel(company);
         Transaction tx = Datastore.beginTransaction();
-        Datastore.put(interviewGroup);
+        Datastore.put(Selection);
         tx.commit();
-        return interviewGroup;
+        return Selection;
     }
 
-    public static InterviewGroup createInterviewGroup(Company company, String phase) {
+    public static Selection createSelection(Company company, String phase) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("phase", phase);
-        return createInterviewGroup(map, company);
+        return createSelection(map, company);
     }
 
-    public static InterviewGroup getInterviewGroup(Key key) {
+    public static Selection getSelection(Key key) {
         try {
             return Datastore.query(meta).filter(meta.key.equal(key)).asSingle();
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class InterviewGroupService {
         }
     }
 
-    public static InterviewGroup getInterviewGroupByCompanyKeyAndPhase(
+    public static Selection getSelectionByCompanyKeyAndPhase(
             Key companyKey, String phase) {
         try {
             return Datastore

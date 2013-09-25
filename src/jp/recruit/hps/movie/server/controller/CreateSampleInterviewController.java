@@ -4,11 +4,11 @@ import java.util.Date;
 
 import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview.Atmosphere;
-import jp.recruit.hps.movie.server.model.InterviewGroup;
+import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.Interview.Category;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
-import jp.recruit.hps.movie.server.service.InterviewGroupService;
+import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.UserService;
 
@@ -31,8 +31,8 @@ public class CreateSampleInterviewController extends Controller {
                 "長所について" };
         int i;
         Company company = CompanyService.getCompanyByName("リクルートホールディングス");
-        InterviewGroup interviewGroup =
-                InterviewGroupService.getInterviewGroupByCompanyKeyAndPhase(
+        Selection Selection =
+                SelectionService.getSelectionByCompanyKeyAndPhase(
                     company.getKey(),
                     "1次面接");
         for (i = 0; i < 5; i++) {
@@ -41,7 +41,7 @@ public class CreateSampleInterviewController extends Controller {
             if (user != null
                 && InterviewService.getInterviewCount(
                     user.getKey(),
-                    interviewGroup.getKey()) == 0) {
+                    Selection.getKey()) == 0) {
                 Date startDate = new Date();
                 startDate.setTime(startDate.getTime() + i * ONE_HOUR);
                 int duration = 30;
@@ -50,7 +50,7 @@ public class CreateSampleInterviewController extends Controller {
                 Category category = Category.INDIVIDUAL;
                 InterviewService.createInterview(
                     user,
-                    interviewGroup,
+                    Selection,
                     startDate,
                     duration,
                     question,

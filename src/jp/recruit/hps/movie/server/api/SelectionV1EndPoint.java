@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import jp.recruit.hps.movie.server.api.dto.CompanyV1Dto;
 import jp.recruit.hps.movie.server.model.Interview;
-import jp.recruit.hps.movie.server.model.InterviewGroup;
+import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.Read;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.ReadService;
@@ -21,12 +21,12 @@ import com.google.appengine.api.datastore.Key;
 /**
  *
  */
-@Api(name = "interviewGroupEndpoint", version = "v1")
-public class InterviewGroupV1EndPoint {
+@Api(name = "selectionEndpoint", version = "v1")
+public class SelectionV1EndPoint {
     private final static Logger logger = Logger
-        .getLogger(InterviewGroupV1EndPoint.class.getName());
+        .getLogger(SelectionV1EndPoint.class.getName());
 
-    public List<CompanyV1Dto> getInterviewGroups(
+    public List<CompanyV1Dto> getSelections(
             @Named("userKey") String userKey) {
         List<CompanyV1Dto> resultList = new ArrayList<CompanyV1Dto>();
         try {
@@ -35,23 +35,23 @@ public class InterviewGroupV1EndPoint {
                     .stringToKey(userKey));
             List<Read> readList =
                 ReadService.getReadList(Datastore.stringToKey(userKey));
-            List<Key> readInterviewGroupKeyList = new ArrayList<Key>();
+            List<Key> readSelectionKeyList = new ArrayList<Key>();
             for (Read read : readList) {
-                readInterviewGroupKeyList.add(read
-                    .getInterviewGroupRef()
+                readSelectionKeyList.add(read
+                    .getSelectionRef()
                     .getKey());
             }
 
             for (Interview interview : interviewList) {
                 CompanyV1Dto dto = new CompanyV1Dto();
                 dto.setKey(Datastore.keyToString(interview
-                    .getInterviewGroupRef()
+                    .getSelectionRef()
                     .getKey()));
-                InterviewGroup ig = interview.getInterviewGroupRef().getModel();
+                Selection ig = interview.getSelectionRef().getModel();
                 dto.setName(ig.getCompanyRef().getModel().getName());
                 dto.setPhase(ig.getPhase());
                 dto.setStartDate(interview.getStartDate().getTime());
-                dto.setWasRead(readInterviewGroupKeyList.contains(ig.getKey()));
+                dto.setWasRead(readSelectionKeyList.contains(ig.getKey()));
                 resultList.add(dto);
             }
         } catch (Exception e) {

@@ -24,7 +24,7 @@ public class Interview implements Serializable {
     private ModelRef<User> userRef = new ModelRef<User>(User.class);
 
     @Attribute(name = "cR")
-    private ModelRef<InterviewGroup> interviewGroupRef = new ModelRef<InterviewGroup>(InterviewGroup.class);
+    private ModelRef<Selection> SelectionRef = new ModelRef<Selection>(Selection.class);
 
     @Attribute(name = "sD")
     private Date startDate;
@@ -122,8 +122,8 @@ public class Interview implements Serializable {
         return userRef;
     }
 
-    public ModelRef<InterviewGroup> getInterviewGroupRef() {
-        return interviewGroupRef;
+    public ModelRef<Selection> getSelectionRef() {
+        return SelectionRef;
     }
 
     public Date getStartDate() {

@@ -9,7 +9,7 @@ import jp.recruit.hps.movie.server.meta.InterviewMeta;
 import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.Interview.Atmosphere;
 import jp.recruit.hps.movie.server.model.Interview.Category;
-import jp.recruit.hps.movie.server.model.InterviewGroup;
+import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
 
 import org.slim3.datastore.Datastore;
@@ -22,13 +22,13 @@ public class InterviewService {
     private static InterviewMeta meta = InterviewMeta.get();
 
     public static Interview createInterview(Map<String, Object> input,
-            User user, InterviewGroup interviewGroup) {
+            User user, Selection Selection) {
         Interview interview = new Interview();
         Key key = Datastore.allocateId(Interview.class);
         BeanUtil.copy(input, interview);
         interview.setKey(key);
         interview.getUserRef().setModel(user);
-        interview.getInterviewGroupRef().setModel(interviewGroup);
+        interview.getSelectionRef().setModel(Selection);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(interview);
         tx.commit();
@@ -36,7 +36,7 @@ public class InterviewService {
     }
 
     public static Interview createInterview(User user,
-            InterviewGroup interviewGroup, Date startDate, int duration,
+            Selection Selection, Date startDate, int duration,
             String question, Atmosphere atmosphere, Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
@@ -44,14 +44,14 @@ public class InterviewService {
         map.put("question", question);
         map.put("atmosphere", atmosphere);
         map.put("category", category);
-        return createInterview(map, user, interviewGroup);
+        return createInterview(map, user, Selection);
     }
 
     public static Interview createInterview(User user,
-            InterviewGroup interviewGroup, Date startDate) {
+            Selection Selection, Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
-        return createInterview(map, user, interviewGroup);
+        return createInterview(map, user, Selection);
     }
 
     public static void updateInterview(Interview interview, int duration,
@@ -62,11 +62,11 @@ public class InterviewService {
         interview.setCategory(category);
     }
 
-    public static List<Interview> getInterviewListByInterviewGroupKey(Key key) {
+    public static List<Interview> getInterviewListBySelectionKey(Key key) {
         try {
             return Datastore
                 .query(meta)
-                .filter(meta.interviewGroupRef.equal(key))
+                .filter(meta.SelectionRef.equal(key))
                 .sortInMemory(meta.startDate.asc)
                 .asList();
         } catch (Exception e) {
@@ -85,12 +85,12 @@ public class InterviewService {
         }
     }
 
-    public static int getInterviewCount(Key userKey, Key interviewGroupKey) {
+    public static int getInterviewCount(Key userKey, Key SelectionKey) {
         return Datastore
             .query(meta)
             .filter(
                 meta.userRef.equal(userKey),
-                meta.interviewGroupRef.equal(interviewGroupKey))
+                meta.SelectionRef.equal(SelectionKey))
             .count();
     }
 }

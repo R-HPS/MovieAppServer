@@ -3,11 +3,11 @@ package jp.recruit.hps.movie.server.controller;
 import java.util.Date;
 
 import jp.recruit.hps.movie.server.model.Company;
-import jp.recruit.hps.movie.server.model.InterviewGroup;
+import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.University;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
-import jp.recruit.hps.movie.server.service.InterviewGroupService;
+import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.UniversityService;
 import jp.recruit.hps.movie.server.service.UserService;
@@ -29,18 +29,18 @@ public class CreateSampleUserController extends Controller {
         }
         User user = UserService.getUserByEmail(email);
         Company company1 = CompanyService.getCompanyByName("リクルートホールディングス");
-        InterviewGroup interviewGroup1 =
-            InterviewGroupService.getInterviewGroupByCompanyKeyAndPhase(
+        Selection Selection1 =
+            SelectionService.getSelectionByCompanyKeyAndPhase(
                 company1.getKey(),
                 "1次面接");
         Company company2 = CompanyService.getCompanyByName("三菱商事");
-        InterviewGroup interviewGroup2 =
-            InterviewGroupService.getInterviewGroupByCompanyKeyAndPhase(
+        Selection Selection2 =
+            SelectionService.getSelectionByCompanyKeyAndPhase(
                 company2.getKey(),
                 "1次面接");
         Company company3 = CompanyService.getCompanyByName("フジテレビ");
-        InterviewGroup interviewGroup3 =
-            InterviewGroupService.getInterviewGroupByCompanyKeyAndPhase(
+        Selection Selection3 =
+            SelectionService.getSelectionByCompanyKeyAndPhase(
                 company3.getKey(),
                 "1次面接");
         Date startDate = new Date();
@@ -49,15 +49,15 @@ public class CreateSampleUserController extends Controller {
         endDate.setTime(startDate.getTime() + ONE_HOUR);
         if (InterviewService
             .getInterviewCount(user.getKey(), company1.getKey()) == 0) {
-            InterviewService.createInterview(user, interviewGroup1, startDate);
+            InterviewService.createInterview(user, Selection1, startDate);
         }
         if (InterviewService
             .getInterviewCount(user.getKey(), company2.getKey()) == 0) {
-            InterviewService.createInterview(user, interviewGroup2, startDate);
+            InterviewService.createInterview(user, Selection2, startDate);
         }
         if (InterviewService
             .getInterviewCount(user.getKey(), company3.getKey()) == 0) {
-            InterviewService.createInterview(user, interviewGroup3, startDate);
+            InterviewService.createInterview(user, Selection3, startDate);
         }
         return null;
     }

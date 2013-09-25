@@ -9,7 +9,7 @@ import org.slim3.datastore.ModelRef;
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class InterviewGroup implements Serializable {
+public class Selection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,7 +82,7 @@ public class InterviewGroup implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        InterviewGroup other = (InterviewGroup) obj;
+        Selection other = (Selection) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
