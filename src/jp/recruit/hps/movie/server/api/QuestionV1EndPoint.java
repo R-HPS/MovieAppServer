@@ -1,11 +1,15 @@
 package jp.recruit.hps.movie.server.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
 
 import jp.recruit.hps.movie.common.CommonConstant;
+import jp.recruit.hps.movie.server.api.dto.QuestionV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
+import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.QuestionService;
@@ -50,6 +54,21 @@ public class QuestionV1EndPoint {
             result.setResult(FAIL);
         }
         return result;
+    }
+
+    public List<QuestionV1Dto> getQuestions(
+            @Named("selectionKey") String selectionKey) {
+        List<QuestionV1Dto> resultList = new ArrayList<QuestionV1Dto>();
+        List<Question> questionList =
+            QuestionService.getQuestionListBySelectionKey(Datastore
+                .stringToKey(selectionKey));
+        for (Question question : questionList) {
+            QuestionV1Dto dto = new QuestionV1Dto();
+            dto.setKey(Datastore.keyToString(question.getKey()));
+            dto.setName(question.getName());
+            resultList.add(dto);
+        }
+        return resultList;
     }
 
 }
