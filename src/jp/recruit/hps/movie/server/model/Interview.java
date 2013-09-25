@@ -26,14 +26,14 @@ public class Interview implements Serializable {
     @Attribute(name = "cR")
     private ModelRef<Selection> SelectionRef = new ModelRef<Selection>(Selection.class);
 
+    @Attribute(name = "qR")
+    private ModelRef<Question> questionRef = new ModelRef<Question>(Question.class);
+    
     @Attribute(name = "sD")
     private Date startDate;
 
     @Attribute(name = "d")
     private int duration;
-
-    @Attribute(name = "q")
-    private String question;
     
     @Attribute(name = "a")
     private Atmosphere atmosphere;
@@ -134,14 +134,6 @@ public class Interview implements Serializable {
         this.startDate = startDate;
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -166,4 +158,7 @@ public class Interview implements Serializable {
         this.duration = duration;
     }
 
+    public ModelRef<Question> getQuestionRef() {
+        return questionRef;
+    }
 }
