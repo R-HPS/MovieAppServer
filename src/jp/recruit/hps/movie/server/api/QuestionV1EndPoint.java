@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 import javax.inject.Named;
 
 import jp.recruit.hps.movie.common.CommonConstant;
+import jp.recruit.hps.movie.server.api.dto.QuestionResultV1Dto;
 import jp.recruit.hps.movie.server.api.dto.QuestionV1Dto;
-import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
 import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
@@ -31,10 +31,10 @@ public class QuestionV1EndPoint {
     private static final String SUCCESS = CommonConstant.SUCCESS;
     private static final String FAIL = CommonConstant.FAIL;
 
-    public ResultV1Dto createQuestion(@Named("userKey") String userKey,
+    public QuestionResultV1Dto createQuestion(@Named("userKey") String userKey,
             @Named("selectionKey") String selectionKey,
             @Named("name") String name) {
-        ResultV1Dto result = new ResultV1Dto();
+        QuestionResultV1Dto result = new QuestionResultV1Dto();
         User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
         Selection selection =
             SelectionService.getSelection(Datastore.stringToKey(selectionKey));
@@ -46,8 +46,10 @@ public class QuestionV1EndPoint {
                 logger.warning("company not found");
                 result.setResult(FAIL);
             } else {
-                QuestionService.createQuestion(user, selection, name);
+                Question question = QuestionService.createQuestion(user, selection, name);
                 result.setResult(SUCCESS);
+                result.setKey(Datastore.keyToString(question.getKey()));
+                result.setName(name);
             }
         } catch (Exception e) {
             logger.warning("Exception" + e);
