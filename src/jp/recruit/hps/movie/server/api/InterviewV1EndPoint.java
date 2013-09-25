@@ -12,7 +12,6 @@ import jp.recruit.hps.movie.server.api.container.StringListContainer;
 import jp.recruit.hps.movie.server.api.dto.InterviewV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
 import jp.recruit.hps.movie.server.model.Interview;
-import jp.recruit.hps.movie.server.model.Interview.Atmosphere;
 import jp.recruit.hps.movie.server.model.Interview.Category;
 import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.Selection;
@@ -48,7 +47,21 @@ public class InterviewV1EndPoint {
             dto.setStartDate(interview.getStartDate().getTime());
             dto.setDuration(interview.getDuration());
             dto.setAtmosphere(interview.getAtmosphere());
-            dto.setCategory(interview.getCategory());
+
+            switch (interview.getCategory()) {
+            case INDIVIDUAL:
+                dto.setCategory(0);
+                break;
+            case GROUP:
+                dto.setCategory(1);
+                break;
+            case GROUP_DISCUSSION:
+                dto.setCategory(2);
+                break;
+            default:
+                dto.setCategory(0);
+            }
+
             resultList.add(dto);
         }
         return resultList;
@@ -83,8 +96,8 @@ public class InterviewV1EndPoint {
     public ResultV1Dto updateInterview(
             @Named("interviewKey") String interviewKey,
             @Named("duration") int duration,
-            @Named("atmosphere") Atmosphere atmosphere,
-            @Named("category") Category category,
+            @Named("atmosphere") int atmosphere,
+            @Named("category") int categoryValue,
             StringListContainer questionKeyListContainer) {
         ResultV1Dto result = new ResultV1Dto();
         Interview interview =
@@ -94,6 +107,21 @@ public class InterviewV1EndPoint {
                 logger.warning("user not found");
                 result.setResult(FAIL);
             } else {
+                Category category;
+                switch (categoryValue) {
+                case 0:
+                    category = Category.INDIVIDUAL;
+                    break;
+                case 1:
+                    category = Category.GROUP;
+                    break;
+                case 2:
+                    category = Category.GROUP_DISCUSSION;
+                    break;
+                default:
+                    category = Category.INDIVIDUAL;
+                }
+
                 InterviewService.updateInterview(
                     interview,
                     duration,
@@ -105,8 +133,10 @@ public class InterviewV1EndPoint {
                 }
                 List<Question> questionList =
                     QuestionService.getQuestionListByKeyList(questionKeyList);
-                for(Question question : questionList) {
-                    InterviewQuestionMapService.createInterviewQuestionMap(question, interview);
+                for (Question question : questionList) {
+                    InterviewQuestionMapService.createInterviewQuestionMap(
+                        question,
+                        interview);
                 }
                 result.setResult(SUCCESS);
             }

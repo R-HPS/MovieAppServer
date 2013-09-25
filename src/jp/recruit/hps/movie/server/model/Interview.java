@@ -33,15 +33,10 @@ public class Interview implements Serializable {
     private int duration;
     
     @Attribute(name = "a")
-    private Atmosphere atmosphere;
+    private int atmosphere;
 
     @Attribute(name = "c")    
     public Category category;
-   
-
-    public enum Atmosphere {
-        SUNNY, CLOUDY, RAINY
-    };
 
     public enum Category {
         INDIVIDUAL, GROUP, GROUP_DISCUSSION
@@ -139,11 +134,11 @@ public class Interview implements Serializable {
         this.category = category;
     }
 
-    public Atmosphere getAtmosphere() {
+    public int getAtmosphere() {
         return atmosphere;
     }
 
-    public void setAtmosphere(Atmosphere atmosphere) {
+    public void setAtmosphere(int atmosphere) {
         this.atmosphere = atmosphere;
     }
 

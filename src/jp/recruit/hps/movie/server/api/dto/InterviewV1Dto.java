@@ -2,7 +2,6 @@ package jp.recruit.hps.movie.server.api.dto;
 
 import javax.persistence.Entity;
 
-import jp.recruit.hps.movie.server.model.Interview.Atmosphere;
 import jp.recruit.hps.movie.server.model.Interview.Category;
 
 @Entity
@@ -10,8 +9,8 @@ public class InterviewV1Dto {
     private Long startDate;
     private int duration;
     private String question;
-    private Atmosphere atmosphere;
-    private Category category;
+    private int atmosphere;
+    private int category;
 
     public Long getStartDate() {
         return startDate;
@@ -29,19 +28,19 @@ public class InterviewV1Dto {
         this.question = question;
     }
 
-    public Atmosphere getAtmosphere() {
+    public int getAtmosphere() {
         return atmosphere;
     }
 
-    public void setAtmosphere(Atmosphere atmosphere) {
+    public void setAtmosphere(int atmosphere) {
         this.atmosphere = atmosphere;
     }
 
-    public Category getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

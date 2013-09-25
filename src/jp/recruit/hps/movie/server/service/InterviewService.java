@@ -7,7 +7,6 @@ import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.InterviewMeta;
 import jp.recruit.hps.movie.server.model.Interview;
-import jp.recruit.hps.movie.server.model.Interview.Atmosphere;
 import jp.recruit.hps.movie.server.model.Interview.Category;
 import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
@@ -37,7 +36,7 @@ public class InterviewService {
 
     public static Interview createInterview(User user, Selection selection,
             Date startDate, int duration, String question,
-            Atmosphere atmosphere, Category category) {
+            int atmosphere, Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("duration", duration);
@@ -55,7 +54,7 @@ public class InterviewService {
     }
 
     public static void updateInterview(Interview interview, int duration,
-            Atmosphere atmosphere, Category category) {
+            int atmosphere, Category category) {
         interview.setDuration(duration);
         interview.setAtmosphere(atmosphere);
         interview.setCategory(category);
