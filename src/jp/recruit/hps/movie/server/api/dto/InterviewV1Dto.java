@@ -2,8 +2,6 @@ package jp.recruit.hps.movie.server.api.dto;
 
 import javax.persistence.Entity;
 
-import jp.recruit.hps.movie.server.model.Interview.Category;
-
 @Entity
 public class InterviewV1Dto {
     private Long startDate;

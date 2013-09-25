@@ -3,13 +3,12 @@ package jp.recruit.hps.movie.server.controller;
 import java.util.Date;
 
 import jp.recruit.hps.movie.server.model.Company;
-import jp.recruit.hps.movie.server.model.Interview.Atmosphere;
-import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.Interview.Category;
+import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
-import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.InterviewService;
+import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.UserService;
 
 import org.slim3.controller.Controller;
@@ -46,7 +45,7 @@ public class CreateSampleInterviewController extends Controller {
                 startDate.setTime(startDate.getTime() + i * ONE_HOUR);
                 int duration = 30;
                 String question = questions[i];
-                Atmosphere atmosphere = Atmosphere.SUNNY;
+                int atmosphere = 0;
                 Category category = Category.INDIVIDUAL;
                 InterviewService.createInterview(
                     user,
