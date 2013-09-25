@@ -23,7 +23,7 @@ public class Read implements Serializable {
     private  ModelRef<User> userRef = new ModelRef<User>(User.class);
     
     @Attribute(name = "iGR")
-    private  ModelRef<Selection> SelectionRef = new ModelRef<Selection>(Selection.class);
+    private  ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
 
     /**
      * Returns the key.
@@ -73,7 +73,7 @@ public class Read implements Serializable {
     }
 
     public ModelRef<Selection> getSelectionRef() {
-        return SelectionRef;
+        return selectionRef;
     }
 
 }

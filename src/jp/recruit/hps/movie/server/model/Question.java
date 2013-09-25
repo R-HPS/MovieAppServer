@@ -25,6 +25,9 @@ public class Question implements Serializable {
     @Attribute(name = "sR")
     private ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
     
+    @Attribute(name = "uR")
+    private ModelRef<User> userRef = new ModelRef<User>(User.class);
+    
     /**
      * Returns the key.
      * 
@@ -105,4 +108,7 @@ public class Question implements Serializable {
         return selectionRef;
     }
 
+    public ModelRef<User> getUserRef() {
+        return userRef;
+    }
 }

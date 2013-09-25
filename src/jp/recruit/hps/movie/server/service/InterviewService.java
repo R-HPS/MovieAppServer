@@ -22,51 +22,59 @@ public class InterviewService {
     private static InterviewMeta meta = InterviewMeta.get();
 
     public static Interview createInterview(Map<String, Object> input,
-            User user, Selection Selection) {
+            User user, Selection selection) {
         Interview interview = new Interview();
         Key key = Datastore.allocateId(Interview.class);
         BeanUtil.copy(input, interview);
         interview.setKey(key);
         interview.getUserRef().setModel(user);
-        interview.getSelectionRef().setModel(Selection);
+        interview.getSelectionRef().setModel(selection);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(interview);
         tx.commit();
         return interview;
     }
 
-    public static Interview createInterview(User user,
-            Selection Selection, Date startDate, int duration,
-            String question, Atmosphere atmosphere, Category category) {
+    public static Interview createInterview(User user, Selection selection,
+            Date startDate, int duration, String question,
+            Atmosphere atmosphere, Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("duration", duration);
         map.put("question", question);
         map.put("atmosphere", atmosphere);
         map.put("category", category);
-        return createInterview(map, user, Selection);
+        return createInterview(map, user, selection);
     }
 
-    public static Interview createInterview(User user,
-            Selection Selection, Date startDate) {
+    public static Interview createInterview(User user, Selection selection,
+            Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
-        return createInterview(map, user, Selection);
+        return createInterview(map, user, selection);
     }
 
     public static void updateInterview(Interview interview, int duration,
-            String question, Atmosphere atmosphere, Category category) {
+            Atmosphere atmosphere, Category category) {
         interview.setDuration(duration);
-        interview.setQuestion(question);
         interview.setAtmosphere(atmosphere);
         interview.setCategory(category);
+    }
+
+    public static Interview getInterview(Key key) {
+        try {
+            return Datastore.query(meta).filter(meta.key.equal(key)).asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     public static List<Interview> getInterviewListBySelectionKey(Key key) {
         try {
             return Datastore
                 .query(meta)
-                .filter(meta.SelectionRef.equal(key))
+                .filter(meta.selectionRef.equal(key))
                 .sortInMemory(meta.startDate.asc)
                 .asList();
         } catch (Exception e) {
@@ -85,12 +93,12 @@ public class InterviewService {
         }
     }
 
-    public static int getInterviewCount(Key userKey, Key SelectionKey) {
+    public static int getInterviewCount(Key userKey, Key selectionKey) {
         return Datastore
             .query(meta)
             .filter(
                 meta.userRef.equal(userKey),
-                meta.SelectionRef.equal(SelectionKey))
+                meta.selectionRef.equal(selectionKey))
             .count();
     }
 }

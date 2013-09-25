@@ -1,7 +1,6 @@
 package jp.recruit.hps.movie.server.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
@@ -10,7 +9,7 @@ import org.slim3.datastore.ModelRef;
 import com.google.appengine.api.datastore.Key;
 
 @Model(schemaVersion = 1)
-public class Interview implements Serializable {
+public class InterviewQuestionMap implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,32 +19,11 @@ public class Interview implements Serializable {
     @Attribute(version = true)
     private Long version;
 
-    @Attribute(name = "uR")
-    private ModelRef<User> userRef = new ModelRef<User>(User.class);
+    @Attribute(name = "iR")
+    private ModelRef<Interview> interviewRef = new ModelRef<Interview>(Interview.class);
 
-    @Attribute(name = "cR")
-    private ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
-    
-    @Attribute(name = "sD")
-    private Date startDate;
-
-    @Attribute(name = "d")
-    private int duration;
-    
-    @Attribute(name = "a")
-    private Atmosphere atmosphere;
-
-    @Attribute(name = "c")    
-    public Category category;
-   
-
-    public enum Atmosphere {
-        SUNNY, CLOUDY, RAINY
-    };
-
-    public enum Category {
-        INDIVIDUAL, GROUP, GROUP_DISCUSSION
-    };
+    @Attribute(name = "qR")
+    private ModelRef<Question> questionRef = new ModelRef<Question>(Question.class);
 
     /**
      * Returns the key.
@@ -104,7 +82,7 @@ public class Interview implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Interview other = (Interview) obj;
+        InterviewQuestionMap other = (InterviewQuestionMap) obj;
         if (key == null) {
             if (other.key != null) {
                 return false;
@@ -115,43 +93,11 @@ public class Interview implements Serializable {
         return true;
     }
 
-    public ModelRef<User> getUserRef() {
-        return userRef;
+    public ModelRef<Interview> getInterviewRef() {
+        return interviewRef;
     }
-
-    public ModelRef<Selection> getSelectionRef() {
-        return selectionRef;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Atmosphere getAtmosphere() {
-        return atmosphere;
-    }
-
-    public void setAtmosphere(Atmosphere atmosphere) {
-        this.atmosphere = atmosphere;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
+    
+    public ModelRef<Question> getQuestionRef() {
+        return questionRef;
     }
 }
