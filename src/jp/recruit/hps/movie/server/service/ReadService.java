@@ -15,25 +15,25 @@ import com.google.appengine.api.datastore.Transaction;
 public class ReadService {
     private static ReadMeta meta = ReadMeta.get();
 
-    public static Read createRead(User user, Selection Selection) {
+    public static Read createRead(User user, Selection selection) {
         Read read = new Read();
         Key key = Datastore.allocateId(Read.class);
         read.setKey(key);
         read.getUserRef().setModel(user);
-        read.getSelectionRef().setModel(Selection);
+        read.getSelectionRef().setModel(selection);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(read);
         tx.commit();
         return read;
     }
 
-    public static boolean isRead(Key userKey, Key SelectionKey) {
+    public static boolean isRead(Key userKey, Key selectionKey) {
         try {
             if (Datastore
                 .query(meta)
                 .filter(
                     meta.userRef.equal(userKey),
-                    meta.SelectionRef.equal(SelectionKey))
+                    meta.selectionRef.equal(selectionKey))
                 .count() > 0) {
                 return true;
             } else {
