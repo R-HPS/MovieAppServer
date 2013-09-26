@@ -48,8 +48,10 @@ public class QuestionV1EndPoint {
             } else {
                 Question question = QuestionService.createQuestion(user, selection, name);
                 result.setResult(SUCCESS);
-                result.setKey(Datastore.keyToString(question.getKey()));
-                result.setName(name);
+                QuestionV1Dto dto = new QuestionV1Dto();
+                dto.setKey(Datastore.keyToString(question.getKey()));
+                dto.setName(name);
+                result.setQuestion(dto);
             }
         } catch (Exception e) {
             logger.warning("Exception" + e);

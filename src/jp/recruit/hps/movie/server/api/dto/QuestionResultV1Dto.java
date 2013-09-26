@@ -4,23 +4,15 @@ import javax.persistence.Entity;
 
 @Entity
 public class QuestionResultV1Dto extends ResultV1Dto {
-    private String key;
-    
-    private String name;
+    private QuestionV1Dto question;
 
-    public String getName() {
-        return name;
+    public QuestionV1Dto getQuestion() {
+        return question;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setQuestion(QuestionV1Dto question) {
+        this.question = question;
     }
 
-    public String getKey() {
-        return key;
-    }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
 }
