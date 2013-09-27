@@ -23,7 +23,7 @@ public class Interview implements Serializable {
     @Attribute(name = "uR")
     private ModelRef<User> userRef = new ModelRef<User>(User.class);
 
-    @Attribute(name = "cR")
+    @Attribute(name = "sR")
     private ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
     
     @Attribute(name = "sD")

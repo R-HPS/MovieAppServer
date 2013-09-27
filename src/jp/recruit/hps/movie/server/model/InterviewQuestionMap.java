@@ -24,6 +24,9 @@ public class InterviewQuestionMap implements Serializable {
 
     @Attribute(name = "qR")
     private ModelRef<Question> questionRef = new ModelRef<Question>(Question.class);
+    
+    @Attribute(name = "sR")
+    private ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
 
     /**
      * Returns the key.
@@ -99,5 +102,9 @@ public class InterviewQuestionMap implements Serializable {
     
     public ModelRef<Question> getQuestionRef() {
         return questionRef;
+    }
+    
+    public ModelRef<Selection> getSelectionRef() {
+        return selectionRef;
     }
 }

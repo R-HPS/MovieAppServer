@@ -2,7 +2,9 @@ package jp.recruit.hps.movie.server.api;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -10,9 +12,11 @@ import javax.inject.Named;
 import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.server.api.container.StringListContainer;
 import jp.recruit.hps.movie.server.api.dto.InterviewV1Dto;
+import jp.recruit.hps.movie.server.api.dto.QuestionWithCountV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
 import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.Interview.Category;
+import jp.recruit.hps.movie.server.model.InterviewQuestionMap;
 import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
@@ -38,33 +42,91 @@ public class InterviewV1EndPoint {
     private static final String SUCCESS = CommonConstant.SUCCESS;
     private static final String FAIL = CommonConstant.FAIL;
 
-    public List<InterviewV1Dto> getInterviews(
+    public InterviewV1Dto getInterviews(
             @Named("selectionKey") String selectionKey) {
-        List<InterviewV1Dto> resultList = new ArrayList<InterviewV1Dto>();
+        InterviewV1Dto result = new InterviewV1Dto();
+        List<QuestionWithCountV1Dto> resultList =
+            new ArrayList<QuestionWithCountV1Dto>();
+
+        int interviewCount = 0;
+        long durationSum = 0l;
+        long atmosphereSum = 0l;
+
+        int individualCount = 0;
+        int groupCount = 0;
+        int groupDiscussionCount = 0;
+
         for (Interview interview : InterviewService
             .getInterviewListBySelectionKey(Datastore.stringToKey(selectionKey))) {
-            InterviewV1Dto dto = new InterviewV1Dto();
-            dto.setStartDate(interview.getStartDate().getTime());
-            dto.setDuration(interview.getDuration());
-            dto.setAtmosphere(interview.getAtmosphere());
+
+            interviewCount++;
+            durationSum += interview.getDuration();
+            atmosphereSum += interview.getAtmosphere();
 
             switch (interview.getCategory()) {
             case INDIVIDUAL:
-                dto.setCategory(0);
+                individualCount++;
                 break;
             case GROUP:
-                dto.setCategory(1);
+                groupCount++;
                 break;
             case GROUP_DISCUSSION:
-                dto.setCategory(2);
+                groupDiscussionCount++;
                 break;
             default:
-                dto.setCategory(0);
             }
-
-            resultList.add(dto);
         }
-        return resultList;
+
+        if (interviewCount == 0) {
+            result.setAtmosphereAvg(0);
+            result.setDurationAvg(0);
+        } else {
+            result.setAtmosphereAvg((double) atmosphereSum
+                / (double) interviewCount);
+            result.setDurationAvg((double) durationSum
+                / (double) interviewCount);
+        }
+
+        if (individualCount > groupCount) {
+            if (individualCount > groupDiscussionCount) {
+                result.setCategory(0);
+            } else {
+                result.setCategory(2);
+            }
+        } else if (groupCount > groupDiscussionCount) {
+            result.setCategory(1);
+        } else {
+            result.setCategory(2);
+        }
+
+        Map<Key, QuestionWithCountV1Dto> questionMap =
+            new HashMap<Key, QuestionWithCountV1Dto>();
+        List<Question> questionList =
+            QuestionService.getQuestionListBySelectionKey(Datastore
+                .stringToKey(selectionKey));
+
+        for (Question question : questionList) {
+            QuestionWithCountV1Dto dto = new QuestionWithCountV1Dto();
+            dto.setKey(Datastore.keyToString(question.getKey()));
+            dto.setName(question.getName());
+            questionMap.put(question.getKey(), dto);
+        }
+        /* 質問数集計 */
+        for (InterviewQuestionMap map : InterviewQuestionMapService
+            .getInterviewQuestionMapBySelectionKey(Datastore
+                .stringToKey(selectionKey))) {
+            QuestionWithCountV1Dto dto =
+                questionMap.get(map.getQuestionRef().getKey());
+            dto.setCount(dto.getCount() + 1);
+        }
+        for (Question question : questionList) {
+            QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
+            dto.setPercent((double) dto.getCount() / (double) interviewCount);
+        }
+
+        resultList.addAll(questionMap.values());
+        result.setQuestionList(resultList);
+        return result;
     }
 
     public ResultV1Dto insertInterview(@Named("userKey") String userKey,

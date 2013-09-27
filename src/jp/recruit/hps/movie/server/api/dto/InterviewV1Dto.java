@@ -1,37 +1,38 @@
 package jp.recruit.hps.movie.server.api.dto;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 
 @Entity
 public class InterviewV1Dto {
-    private Long startDate;
-    private int duration;
-    private String question;
-    private int atmosphere;
+    private double durationAvg;
+    private double atmosphereAvg;
     private int category;
+    private List<QuestionWithCountV1Dto> questionList;
 
-    public Long getStartDate() {
-        return startDate;
+    public double getDurationAvg() {
+        return durationAvg;
     }
 
-    public void setStartDate(Long startDate) {
-        this.startDate = startDate;
+    public void setDurationAvg(double durationAvg) {
+        this.durationAvg = durationAvg;
     }
 
-    public String getQuestion() {
-        return question;
+    public double getAtmosphereAvg() {
+        return atmosphereAvg;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setAtmosphereAvg(double atmosphereAvg) {
+        this.atmosphereAvg = atmosphereAvg;
     }
 
-    public int getAtmosphere() {
-        return atmosphere;
+    public List<QuestionWithCountV1Dto> getQuestionList() {
+        return questionList;
     }
 
-    public void setAtmosphere(int atmosphere) {
-        this.atmosphere = atmosphere;
+    public void setQuestionList(List<QuestionWithCountV1Dto> questionList) {
+        this.questionList = questionList;
     }
 
     public int getCategory() {
@@ -42,11 +43,4 @@ public class InterviewV1Dto {
         this.category = category;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 }
