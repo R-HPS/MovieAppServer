@@ -42,6 +42,7 @@ public class ExportCSVController extends Controller {
             if (ArchiveService.getArchiveCountByNameAndYear(name, year) == 0) {
                 ArchiveService.createArchive(company, name, type, year, body);
             }
+            break;
         }
         return null;
 

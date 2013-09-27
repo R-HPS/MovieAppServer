@@ -8,6 +8,7 @@
 	<system-properties>
 	    <property name="slim3.hotReloading" value="true"/>
 	    <property name="DEFAULT_ENCODING" value="UTF-8"/> 
+	    <property name="file.encoding" value="UTF-8"/> 
 	    <!--
         <property name="slim3.datastoreDeadline" value="8"/>
         <property name="slim3.uploadSizeMax" value="1000000"/>
