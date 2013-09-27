@@ -11,6 +11,8 @@ public class LoginResultV1Dto {
     private String email;
     
     private String result;
+    
+    private String key;
 
     private Long id;
 
@@ -36,5 +38,13 @@ public class LoginResultV1Dto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }
