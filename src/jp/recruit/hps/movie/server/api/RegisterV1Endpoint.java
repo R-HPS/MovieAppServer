@@ -4,19 +4,22 @@ import java.util.logging.Logger;
 
 import javax.inject.Named;
 
+import org.slim3.datastore.Datastore;
+
 import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.common.RegisterConstant;
 import jp.recruit.hps.movie.server.api.dto.RegisterResultV1Dto;
-import jp.recruit.hps.movie.server.model.Register;
 import jp.recruit.hps.movie.server.model.University;
 import jp.recruit.hps.movie.server.model.User;
-import jp.recruit.hps.movie.server.service.RegisterService;
 import jp.recruit.hps.movie.server.service.UniversityService;
 import jp.recruit.hps.movie.server.service.UserService;
 import jp.recruit.hps.movie.server.utils.AddressChecker;
-import jp.recruit.hps.movie.server.utils.MailUtils;
 
 import com.google.api.server.spi.config.Api;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
+import com.google.appengine.api.taskqueue.TaskOptions.Method;
 
 @Api(name = "registerEndpoint", version = "v1")
 public class RegisterV1Endpoint {
@@ -59,8 +62,11 @@ public class RegisterV1Endpoint {
                     UniversityService.getUniversityByDomain(AddressChecker
                         .check(email));
                 User user = UserService.createUser(university, email, password);
-                Register register = RegisterService.createRegister(user);
-                MailUtils.sendMail(email, register.getKey());
+                Queue queue = QueueFactory.getDefaultQueue();
+                queue.add(TaskOptions.Builder
+                    .withUrl("/system/tempRegister")
+                    .param("userKey", Datastore.keyToString(user.getKey()))
+                    .method(Method.POST));
             }
         } catch (Exception e) {
             logger.warning(e.getMessage());

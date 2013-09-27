@@ -21,7 +21,7 @@ public class Register implements Serializable {
     private Long version;
 
     @Attribute(name = "uR")
-    private ModelRef<User> userRef;
+    private ModelRef<User> userRef = new ModelRef<User>(User.class);
     
     @Attribute(name="e")
     private Date expire;

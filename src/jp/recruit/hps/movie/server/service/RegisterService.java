@@ -34,8 +34,6 @@ public class RegisterService {
             tx.commit();
         } catch (ConcurrentModificationException e) {
             logger.warning(e.getMessage());
-            Thread.sleep(5000);
-            return createRegister(user);
         }
         return register;
     }
