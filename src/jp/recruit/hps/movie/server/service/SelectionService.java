@@ -1,6 +1,7 @@
 package jp.recruit.hps.movie.server.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.SelectionMeta;
@@ -38,6 +39,19 @@ public class SelectionService {
     public static Selection getSelection(Key key) {
         try {
             return Datastore.query(meta).filter(meta.key.equal(key)).asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public static List<Selection> getSelectionListByCompanyKey(
+            Key companyKey) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(
+                    meta.companyRef.equal(companyKey))
+                .asList();
         } catch (Exception e) {
             return null;
         }
