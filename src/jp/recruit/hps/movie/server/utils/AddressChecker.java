@@ -9,7 +9,7 @@ public class AddressChecker {
             "^[a-zA-Z0-9!#$%&'_`/=~\\*\\+\\-\\?\\^\\{\\|\\}]+"
                 + "[\\.[a-zA-Z0-9!#$%&'_`/=~\\*\\+\\-\\?\\^\\{\\|\\}]+]*"
                 + "@"
-                + "[a-zA-Z0-9][a-zA-Z0-9\\-]*[\\.[a-zA-Z0-9\\-]+]+?\\.([a-zA-Z0-9\\-]+\\.ac\\.jp)$";
+                + "[[a-zA-Z0-9][a-zA-Z0-9\\-]*\\.]*?([a-zA-Z0-9\\-]+\\.ac\\.jp)$";
         Pattern ptn = Pattern.compile(ptnStr);
         Matcher mc = ptn.matcher(address);
         if (mc.matches()) {
