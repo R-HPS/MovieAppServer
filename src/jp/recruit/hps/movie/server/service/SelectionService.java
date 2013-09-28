@@ -45,6 +45,18 @@ public class SelectionService {
             return null;
         }
     }
+    
+    public static int getSelectionCountByCompanyKey(Key companyKey) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.companyRef.equal(companyKey))
+                .sortInMemory(meta.section.asc, meta.phase.asc)
+                .count();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
     public static List<Selection> getSelectionListByCompanyKey(Key companyKey) {
         try {

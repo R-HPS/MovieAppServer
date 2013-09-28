@@ -35,8 +35,8 @@ public class InterviewService {
     }
 
     public static Interview createInterview(User user, Selection selection,
-            Date startDate, int duration, String question,
-            int atmosphere, Category category) {
+            Date startDate, int duration, String question, int atmosphere,
+            Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("duration", duration);
@@ -87,6 +87,8 @@ public class InterviewService {
             return Datastore
                 .query(meta)
                 .filter(meta.userRef.equal(key))
+                .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
+                .sortInMemory(meta.startDate.asc)
                 .asList();
         } catch (Exception e) {
             return null;
