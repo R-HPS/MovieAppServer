@@ -21,14 +21,16 @@ public class CreateSampleUniversityController extends Controller {
                 "chuo-u.ac.jp" };
         String names[] = { "東京工業大学", "東京大学", "慶應義塾大学", "筑波大学", "明治大学", "中央大学" };
         for (int i = 0; i < domains.length; i++) {
-            University university ;
+            University university;
             if (UniversityService.getUniversityCount(domains[i]) == 0) {
-                university = UniversityService.createUniversity(names[i], domains[i]);
+                university =
+                    UniversityService.createUniversity(names[i], domains[i]);
             } else {
-                university = UniversityService.getUniversityByDomain(domains[i]);
+                university =
+                    UniversityService.getUniversityByDomain(domains[i]);
             }
             String email = "test@test." + domains[i];
-            if(UserService.getUserCount(email) == 0) {
+            if (UserService.getUserCount(email) == 0) {
                 UserService.createUser(university, email, "aaaaaa");
             }
         }

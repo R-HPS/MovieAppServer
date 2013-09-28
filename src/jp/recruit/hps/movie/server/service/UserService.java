@@ -99,7 +99,7 @@ public class UserService {
         Datastore.put(user.getKey());
     }
     
-    public static void subPoint(User user) {
+    public static void usePoint(User user) {
         user.setPoint(user.getPoint() - 1);
         Datastore.put(user.getKey());
     }

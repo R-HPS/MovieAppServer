@@ -23,6 +23,7 @@ import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.InterviewQuestionMapService;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.QuestionService;
+import jp.recruit.hps.movie.server.service.ReadService;
 import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.UserService;
 
@@ -42,8 +43,9 @@ public class InterviewV1EndPoint {
     private static final String SUCCESS = CommonConstant.SUCCESS;
     private static final String FAIL = CommonConstant.FAIL;
 
-    public InterviewV1Dto getInterviews(
-            @Named("selectionKey") String selectionKey) {
+    public InterviewV1Dto getInterview(@Named("userKey") String userKey,
+            @Named("selectionKey") String selectionKey,
+            @Named("wasRead") boolean wasRead) {
         InterviewV1Dto result = new InterviewV1Dto();
         List<QuestionWithCountV1Dto> resultList =
             new ArrayList<QuestionWithCountV1Dto>();
@@ -126,6 +128,16 @@ public class InterviewV1EndPoint {
 
         resultList.addAll(questionMap.values());
         result.setQuestionList(resultList);
+
+        if (!wasRead) {
+            User user =
+                UserService.getUserByKey(Datastore.stringToKey(userKey));
+            Selection selection =
+                SelectionService.getSelection(Datastore
+                    .stringToKey(selectionKey));
+            ReadService.createRead(user, selection);
+            UserService.usePoint(user);
+        }
         return result;
     }
 
@@ -146,6 +158,7 @@ public class InterviewV1EndPoint {
             } else {
                 InterviewService.createInterview(user, Selection, new Date(
                     startTime));
+                UserService.addPoint(user);
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {
