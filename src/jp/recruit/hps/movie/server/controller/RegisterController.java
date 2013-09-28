@@ -27,6 +27,7 @@ public class RegisterController extends Controller {
                     UserService.updateState(user, State.ACTIVE);
                 }
                 Datastore.delete(registerKey);
+                return forward("register.jsp");
             }
         } catch (Exception e) {
         }
