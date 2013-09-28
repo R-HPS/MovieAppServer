@@ -58,6 +58,7 @@ public class InterviewService {
         interview.setDuration(duration);
         interview.setAtmosphere(atmosphere);
         interview.setCategory(category);
+        Datastore.put(interview);
     }
 
     public static Interview getInterview(Key key) {
