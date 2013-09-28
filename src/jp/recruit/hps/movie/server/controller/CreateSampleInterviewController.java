@@ -24,10 +24,10 @@ public class CreateSampleInterviewController extends Controller {
         String[] questions =
             {
                 "あなたが学生時代に頑張ったことは？",
-                "あなたの長所はなんですか？",
-                "学生時代に頑張ったこと",
-                "長所と短所",
-                "長所について" };
+                "あなたの長所と短所は？",
+                "どうして弊社を志望したのですか？",
+                ""
+                };
         int i;
         Company company = CompanyService.getCompanyByName("リクルートホールディングス");
         Selection Selection =

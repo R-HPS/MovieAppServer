@@ -1,6 +1,8 @@
 package jp.recruit.hps.movie.server.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -139,6 +141,12 @@ public class InterviewV1EndPoint {
             QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
             dto.setPercent((double) dto.getCount() / (double) interviewCount);
         }
+        Collections.sort(resultList, new Comparator<QuestionWithCountV1Dto>() {
+            public int compare(QuestionWithCountV1Dto o1,
+                    QuestionWithCountV1Dto o2) {
+                return Integer.valueOf(o1.getCount()).compareTo(o2.getCount());
+            }
+        });
 
         resultList.addAll(questionMap.values());
         result.setQuestionList(resultList);
