@@ -96,11 +96,11 @@ public class UserService {
     
     public static void addPoint(User user) {
         user.setPoint(user.getPoint() + 1);
-        Datastore.put(user.getKey());
+        Datastore.put(user);
     }
     
     public static void usePoint(User user) {
         user.setPoint(user.getPoint() - 1);
-        Datastore.put(user.getKey());
+        Datastore.put(user);
     }
 }
