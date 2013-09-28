@@ -8,6 +8,8 @@ public class SelectionV1Dto {
        
     private String phase;
 
+    private String section;
+    
     public String getKey() {
         return key;
     }
@@ -22,6 +24,14 @@ public class SelectionV1Dto {
 
     public void setPhase(String phase) {
         this.phase = phase;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
 }

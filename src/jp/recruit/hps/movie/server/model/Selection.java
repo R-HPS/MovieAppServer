@@ -22,9 +22,12 @@ public class Selection implements Serializable {
     @Attribute(name = "cR")
     private ModelRef<Company> companyRef = new ModelRef<Company>(Company.class);
 
+    @Attribute(name = "s")
+    private String section;
+
     @Attribute(name = "p")
     private String phase;
-
+    
     /**
      * Returns the key.
      * 
@@ -103,6 +106,14 @@ public class Selection implements Serializable {
 
     public void setPhase(String phase) {
         this.phase = phase;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
 }

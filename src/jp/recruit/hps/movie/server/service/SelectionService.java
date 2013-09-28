@@ -17,8 +17,8 @@ import com.google.appengine.api.datastore.Transaction;
 public class SelectionService {
     private static SelectionMeta meta = SelectionMeta.get();
 
-    public static Selection createSelection(
-            Map<String, Object> input, Company company) {
+    public static Selection createSelection(Map<String, Object> input,
+            Company company) {
         Selection Selection = new Selection();
         Key key = Datastore.allocateId(Selection.class);
         BeanUtil.copy(input, Selection);
@@ -30,9 +30,11 @@ public class SelectionService {
         return Selection;
     }
 
-    public static Selection createSelection(Company company, String phase) {
+    public static Selection createSelection(Company company, String section,
+            String phase) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("phase", phase);
+        map.put("section", section);
         return createSelection(map, company);
     }
 
@@ -43,27 +45,26 @@ public class SelectionService {
             return null;
         }
     }
-    
-    public static List<Selection> getSelectionListByCompanyKey(
-            Key companyKey) {
+
+    public static List<Selection> getSelectionListByCompanyKey(Key companyKey) {
         try {
             return Datastore
                 .query(meta)
-                .filter(
-                    meta.companyRef.equal(companyKey))
+                .filter(meta.companyRef.equal(companyKey))
                 .asList();
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static Selection getSelectionByCompanyKeyAndPhase(
-            Key companyKey, String phase) {
+    public static Selection getSelectionByCompanyKeyAndSectionAndPhase(
+            Key companyKey, String section, String phase) {
         try {
             return Datastore
                 .query(meta)
                 .filter(
                     meta.companyRef.equal(companyKey),
+                    meta.section.equal(section),
                     meta.phase.equal(phase))
                 .asSingle();
         } catch (Exception e) {

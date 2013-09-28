@@ -24,7 +24,7 @@ public class CreateSampleCompanyController extends Controller {
             }
             if (company != null) {
                 for (int i = 1; i < 4; i++) {
-                    SelectionService.createSelection(company, i + "次面接");
+                    SelectionService.createSelection(company, "", i + "次面接");
                 }
             }
         }

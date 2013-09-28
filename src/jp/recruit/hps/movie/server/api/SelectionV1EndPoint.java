@@ -39,6 +39,7 @@ public class SelectionV1EndPoint {
             SelectionV1Dto dto = new SelectionV1Dto();
             dto.setKey(Datastore.keyToString(selection.getKey()));
             dto.setPhase(selection.getPhase());
+            dto.setSection(selection.getSection());
             resultList.add(dto);
         }
     } catch (Exception e) {
