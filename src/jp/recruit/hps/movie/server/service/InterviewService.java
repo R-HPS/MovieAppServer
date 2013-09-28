@@ -68,6 +68,17 @@ public class InterviewService {
         }
 
     }
+    
+    public static Interview getInterviewBySelectionKeyAndUserKey(Key selectionKey, Key userKey) {
+        try {
+            return Datastore
+                .query(meta)
+                .filter(meta.selectionRef.equal(selectionKey), meta.userRef.equal(userKey))
+                .asSingle();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public static List<Interview> getInterviewListBySelectionKey(Key key) {
         try {

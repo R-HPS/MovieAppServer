@@ -173,18 +173,20 @@ public class InterviewV1EndPoint {
         return result;
     }
 
-    public ResultV1Dto updateInterview(
-            @Named("interviewKey") String interviewKey,
+    public ResultV1Dto updateInterview(@Named("userKey") String userKey,
+            @Named("selectionKey") String selectionKey,
             @Named("duration") int duration,
             @Named("atmosphere") int atmosphere,
             @Named("category") int categoryValue,
             StringListContainer questionKeyListContainer) {
         ResultV1Dto result = new ResultV1Dto();
         Interview interview =
-            InterviewService.getInterview(Datastore.stringToKey(interviewKey));
+            InterviewService.getInterviewBySelectionKeyAndUserKey(
+                Datastore.stringToKey(selectionKey),
+                Datastore.stringToKey(userKey));
         try {
             if (interview == null) {
-                logger.warning("user not found");
+                logger.warning("interview not found");
                 result.setResult(FAIL);
             } else {
                 Category category;
