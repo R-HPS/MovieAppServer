@@ -74,7 +74,7 @@ public class InterviewService {
             return Datastore
                 .query(meta)
                 .filter(meta.selectionRef.equal(key))
-                .filterInMemory(meta.startDate.lessThanOrEqual(new Date()))
+                .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
                 .sortInMemory(meta.startDate.asc)
                 .asList();
         } catch (Exception e) {
