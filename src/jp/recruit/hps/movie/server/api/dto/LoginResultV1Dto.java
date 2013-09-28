@@ -15,6 +15,8 @@ public class LoginResultV1Dto {
     private String key;
 
     private Long id;
+    
+    private int point;
 
     public String getMail() {
         return email;
@@ -46,5 +48,13 @@ public class LoginResultV1Dto {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
     }
 }

@@ -47,6 +47,20 @@ public class InterviewV1EndPoint {
             @Named("selectionKey") String selectionKey,
             @Named("wasRead") boolean wasRead) {
         InterviewV1Dto result = new InterviewV1Dto();
+
+        if (!wasRead) {
+            User user =
+                UserService.getUserByKey(Datastore.stringToKey(userKey));
+            if (user.getPoint() <= 0) {
+                return result;
+            }
+            Selection selection =
+                SelectionService.getSelection(Datastore
+                    .stringToKey(selectionKey));
+            ReadService.createRead(user, selection);
+            UserService.usePoint(user);
+        }
+
         List<QuestionWithCountV1Dto> resultList =
             new ArrayList<QuestionWithCountV1Dto>();
 
@@ -129,15 +143,6 @@ public class InterviewV1EndPoint {
         resultList.addAll(questionMap.values());
         result.setQuestionList(resultList);
 
-        if (!wasRead) {
-            User user =
-                UserService.getUserByKey(Datastore.stringToKey(userKey));
-            Selection selection =
-                SelectionService.getSelection(Datastore
-                    .stringToKey(selectionKey));
-            ReadService.createRead(user, selection);
-            UserService.usePoint(user);
-        }
         return result;
     }
 

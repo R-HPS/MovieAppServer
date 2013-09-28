@@ -41,6 +41,7 @@ public class LoginV1Endpoint {
                     result.setResult(SUCCESS);
                     result.setMail(user.getEmail());
                     result.setId(user.getId());
+                    result.setPoint(user.getPoint());
                     result.setKey(Datastore.keyToString(user.getKey()));
                 }
             }
