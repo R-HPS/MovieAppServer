@@ -51,6 +51,7 @@ public class SelectionService {
             return Datastore
                 .query(meta)
                 .filter(meta.companyRef.equal(companyKey))
+                .sortInMemory(meta.section.asc, meta.phase.asc)
                 .asList();
         } catch (Exception e) {
             return null;

@@ -23,9 +23,6 @@ public class Archive implements Serializable {
     @Attribute(name = "cR")
     private ModelRef<Company> companyRef = new ModelRef<Company>(Company.class);
 
-    @Attribute(name = "n")
-    private String name;
-
     @Attribute(name = "t")
     private String type;
 
@@ -101,14 +98,6 @@ public class Archive implements Serializable {
             return false;
         }
         return true;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getType() {

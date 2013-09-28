@@ -29,11 +29,10 @@ public class ArchiveService {
         tx.commit();
         return archive;
     }
+    public static Archive createArchive(Company company, String type, int year,
 
-    public static Archive createArchive(Company company, String name, String type, int year,
             String body) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("name", name);
         map.put("type", type);
         map.put("year", year);
         map.put("body", new Text(body));
@@ -50,22 +49,11 @@ public class ArchiveService {
             return null;
         }
     }
-    
-    public static Archive getArchiveByName(String name) {
-        try {
-            return Datastore
-                .query(meta)
-                .filter(meta.name.equal(name))
-                .asSingle();
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
-    public static int getArchiveCountByNameAndYear(String name, int year) {
+    public static int getArchiveCountByCompanyKeyAndYear(Key companyKey, int year) {
         return Datastore
             .query(meta)
-            .filter(meta.name.equal(name), meta.year.equal(year))
+            .filter(meta.companyRef.equal(companyKey), meta.year.equal(year))
             .count();
     }
 }

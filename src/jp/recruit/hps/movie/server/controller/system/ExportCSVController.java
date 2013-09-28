@@ -48,8 +48,10 @@ public class ExportCSVController extends Controller {
             } else {
                 company = CompanyService.createCompany(name);
             }
-            if (ArchiveService.getArchiveCountByNameAndYear(name, year) == 0) {
-                ArchiveService.createArchive(company, name, type, year, body);
+            if (ArchiveService.getArchiveCountByCompanyKeyAndYear(
+                company.getKey(),
+                year) == 0) {
+                ArchiveService.createArchive(company, type, year, body);
             }
         }
         return null;
