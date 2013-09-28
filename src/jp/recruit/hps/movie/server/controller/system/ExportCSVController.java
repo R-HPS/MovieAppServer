@@ -1,5 +1,10 @@
 package jp.recruit.hps.movie.server.controller.system;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.service.ArchiveService;
 import jp.recruit.hps.movie.server.service.CompanyService;
@@ -13,10 +18,14 @@ public class ExportCSVController extends Controller {
     @Override
     public Navigation run() throws Exception {
         FileItem formFile = requestScope("formFile");
-        String dataString = new String(formFile.getData());
+        InputStream is = new ByteArrayInputStream(formFile.getData());
         String CL = System.getProperty("line.separator");
-        String[] dataArray = dataString.split(CL);
-        for (String line : dataArray) {
+
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        String line = null;
+
+        while ((line = br.readLine()) != null) {
             String[] datas = line.split(";");
             String name;
             String type;
@@ -42,7 +51,6 @@ public class ExportCSVController extends Controller {
             if (ArchiveService.getArchiveCountByNameAndYear(name, year) == 0) {
                 ArchiveService.createArchive(company, name, type, year, body);
             }
-            break;
         }
         return null;
 

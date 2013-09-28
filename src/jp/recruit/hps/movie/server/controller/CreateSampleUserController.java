@@ -23,25 +23,29 @@ public class CreateSampleUserController extends Controller {
     public Navigation run() throws Exception {
         String email = "test@test.com";
         String password = "aaaaaa";
-        University university = UniversityService.getUniversityByDomain("titech.ac.jp");
+        University university =
+            UniversityService.getUniversityByDomain("titech.ac.jp");
         if (UserService.getUserCount(email) == 0) {
             UserService.createUser(university, email, password);
         }
         User user = UserService.getUserByEmail(email);
         Company company1 = CompanyService.getCompanyByName("リクルートホールディングス");
         Selection Selection1 =
-            SelectionService.getSelectionByCompanyKeyAndPhase(
+            SelectionService.getSelectionByCompanyKeyAndSectionAndPhase(
                 company1.getKey(),
+                "",
                 "1次面接");
         Company company2 = CompanyService.getCompanyByName("三菱商事");
         Selection Selection2 =
-            SelectionService.getSelectionByCompanyKeyAndPhase(
+            SelectionService.getSelectionByCompanyKeyAndSectionAndPhase(
                 company2.getKey(),
+                "",
                 "1次面接");
         Company company3 = CompanyService.getCompanyByName("フジテレビ");
         Selection Selection3 =
-            SelectionService.getSelectionByCompanyKeyAndPhase(
+            SelectionService.getSelectionByCompanyKeyAndSectionAndPhase(
                 company3.getKey(),
+                "",
                 "1次面接");
         Date startDate = new Date();
         startDate.setTime(startDate.getTime() + ONE_HOUR);

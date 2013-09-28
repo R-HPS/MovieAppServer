@@ -31,8 +31,9 @@ public class CreateSampleInterviewController extends Controller {
         int i;
         Company company = CompanyService.getCompanyByName("リクルートホールディングス");
         Selection Selection =
-                SelectionService.getSelectionByCompanyKeyAndPhase(
+                SelectionService.getSelectionByCompanyKeyAndSectionAndPhase(
                     company.getKey(),
+                    "",
                     "1次面接");
         for (i = 0; i < 5; i++) {
             String email = "test" + i + "@hoge.ac.jp";
