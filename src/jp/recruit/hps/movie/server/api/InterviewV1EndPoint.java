@@ -77,6 +77,10 @@ public class InterviewV1EndPoint {
         for (Interview interview : InterviewService
             .getInterviewListBySelectionKey(Datastore.stringToKey(selectionKey))) {
 
+            if (interview.getCategory() == null) {
+                continue;
+            }
+
             interviewCount++;
             durationSum += interview.getDuration();
             atmosphereSum += interview.getAtmosphere();
