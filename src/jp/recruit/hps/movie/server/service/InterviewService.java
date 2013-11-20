@@ -22,6 +22,9 @@ public class InterviewService {
 
     public static Interview createInterview(Map<String, Object> input,
             User user, Selection selection) {
+        if (getInterviewCount(user.getKey(), selection.getKey()) > 0) {
+            return null;
+        }
         Interview interview = new Interview();
         Key key = Datastore.allocateId(Interview.class);
         BeanUtil.copy(input, interview);
@@ -35,8 +38,7 @@ public class InterviewService {
     }
 
     public static Interview createInterview(User user, Selection selection,
-            Date startDate, int duration, int atmosphere,
-            Category category) {
+            Date startDate, int duration, int atmosphere, Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("duration", duration);
@@ -68,13 +70,17 @@ public class InterviewService {
         }
 
     }
-    
-    public static Interview getInterviewBySelectionKeyAndUserKey(Key selectionKey, Key userKey) {
+
+    public static Interview getInterviewBySelectionKeyAndUserKey(
+            Key selectionKey, Key userKey) {
         try {
             return Datastore
                 .query(meta)
-                .filter(meta.selectionRef.equal(selectionKey), meta.userRef.equal(userKey))
-                .asSingle();
+                .filter(
+                    meta.selectionRef.equal(selectionKey),
+                    meta.userRef.equal(userKey))
+                .asList()
+                .get(0);
         } catch (Exception e) {
             return null;
         }
