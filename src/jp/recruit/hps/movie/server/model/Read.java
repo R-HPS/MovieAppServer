@@ -22,8 +22,8 @@ public class Read implements Serializable {
     @Attribute(name = "uR")
     private  ModelRef<User> userRef = new ModelRef<User>(User.class);
     
-    @Attribute(name = "iGR")
-    private  ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
+    @Attribute(name = "iR")
+    private  ModelRef<Interview> interviewRef = new ModelRef<Interview>(Interview.class);
 
     /**
      * Returns the key.
@@ -72,8 +72,8 @@ public class Read implements Serializable {
         return userRef;
     }
 
-    public ModelRef<Selection> getSelectionRef() {
-        return selectionRef;
+    public ModelRef<Interview> getInterviewRef() {
+        return interviewRef;
     }
 
 }

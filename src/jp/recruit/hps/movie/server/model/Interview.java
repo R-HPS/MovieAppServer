@@ -23,8 +23,8 @@ public class Interview implements Serializable {
     @Attribute(name = "uR")
     private ModelRef<User> userRef = new ModelRef<User>(User.class);
 
-    @Attribute(name = "sR")
-    private ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
+    @Attribute(name = "cR")
+    private ModelRef<Company> companyRef = new ModelRef<Company>(Company.class);
     
     @Attribute(name = "sD")
     private Date startDate;
@@ -114,8 +114,8 @@ public class Interview implements Serializable {
         return userRef;
     }
 
-    public ModelRef<Selection> getSelectionRef() {
-        return selectionRef;
+    public ModelRef<Company> getCompanyRef() {
+        return companyRef;
     }
 
     public Date getStartDate() {

@@ -1,7 +1,5 @@
 package jp.recruit.hps.movie.server.service;
 
-import java.util.List;
-
 import jp.recruit.hps.movie.server.meta.InterviewQuestionMapMeta;
 import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.InterviewQuestionMap;
@@ -27,17 +25,5 @@ public class InterviewQuestionMapService {
         Datastore.put(map);
         tx.commit();
         return map;
-    }
-
-    public static List<InterviewQuestionMap> getInterviewQuestionMapBySelectionKey(
-            Key selectionKey) {
-        try {
-            return Datastore
-                .query(meta)
-                .filter(meta.selectionRef.equal(selectionKey))
-                .asList();
-        } catch (Exception e) {
-            return null;
-        }
     }
 }

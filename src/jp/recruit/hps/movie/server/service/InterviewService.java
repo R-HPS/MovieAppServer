@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.InterviewMeta;
+import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.Interview.Category;
-import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
 
 import org.slim3.datastore.Datastore;
@@ -21,8 +21,8 @@ public class InterviewService {
     private static InterviewMeta meta = InterviewMeta.get();
 
     public static Interview createInterview(Map<String, Object> input,
-            User user, Selection selection) {
-        if (getInterviewCount(user.getKey(), selection.getKey()) > 0) {
+            User user, Company company) {
+        if (getInterviewCount(user.getKey(), company.getKey()) > 0) {
             return null;
         }
         Interview interview = new Interview();
@@ -30,28 +30,27 @@ public class InterviewService {
         BeanUtil.copy(input, interview);
         interview.setKey(key);
         interview.getUserRef().setModel(user);
-        interview.getSelectionRef().setModel(selection);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(interview);
         tx.commit();
         return interview;
     }
 
-    public static Interview createInterview(User user, Selection selection,
+    public static Interview createInterview(User user, Company company,
             Date startDate, int duration, int atmosphere, Category category) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("duration", duration);
         map.put("atmosphere", atmosphere);
         map.put("category", category);
-        return createInterview(map, user, selection);
+        return createInterview(map, user, company);
     }
 
-    public static Interview createInterview(User user, Selection selection,
+    public static Interview createInterview(User user, Company company,
             Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
-        return createInterview(map, user, selection);
+        return createInterview(map, user, company);
     }
 
     public static void updateInterview(Interview interview, int duration,
@@ -71,13 +70,13 @@ public class InterviewService {
 
     }
 
-    public static Interview getInterviewBySelectionKeyAndUserKey(
-            Key selectionKey, Key userKey) {
+    public static Interview getInterviewByCompanyKeyAndUserKey(
+            Key companyKey, Key userKey) {
         try {
             return Datastore
                 .query(meta)
                 .filter(
-                    meta.selectionRef.equal(selectionKey),
+                    meta.companyRef.equal(companyKey),
                     meta.userRef.equal(userKey))
                 .asList()
                 .get(0);
@@ -86,11 +85,11 @@ public class InterviewService {
         }
     }
 
-    public static List<Interview> getInterviewListBySelectionKey(Key key) {
+    public static List<Interview> getInterviewListByCompanyKey(Key key) {
         try {
             return Datastore
                 .query(meta)
-                .filter(meta.selectionRef.equal(key))
+                .filter(meta.companyRef.equal(key))
                 .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
                 .sortInMemory(meta.startDate.asc)
                 .asList();
@@ -112,12 +111,20 @@ public class InterviewService {
         }
     }
 
-    public static int getInterviewCount(Key userKey, Key selectionKey) {
+    public static int getInterviewCount(Key userKey, Key companyKey) {
         return Datastore
             .query(meta)
             .filter(
                 meta.userRef.equal(userKey),
-                meta.selectionRef.equal(selectionKey))
+                meta.companyRef.equal(companyKey))
+            .count();
+    }
+    
+    public static int getInterviewCountByCompanyKey(Key companyKey) {
+        return Datastore
+            .query(meta)
+            .filter(
+                meta.companyRef.equal(companyKey))
             .count();
     }
 }

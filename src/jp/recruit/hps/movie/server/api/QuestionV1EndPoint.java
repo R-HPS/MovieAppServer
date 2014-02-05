@@ -9,11 +9,11 @@ import javax.inject.Named;
 import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.server.api.dto.QuestionResultV1Dto;
 import jp.recruit.hps.movie.server.api.dto.QuestionV1Dto;
+import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Question;
-import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
+import jp.recruit.hps.movie.server.service.CompanyService;
 import jp.recruit.hps.movie.server.service.QuestionService;
-import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.UserService;
 
 import org.slim3.datastore.Datastore;
@@ -32,21 +32,21 @@ public class QuestionV1EndPoint {
     private static final String FAIL = CommonConstant.FAIL;
 
     public QuestionResultV1Dto createQuestion(@Named("userKey") String userKey,
-            @Named("selectionKey") String selectionKey,
+            @Named("companyKey") String companyKey,
             @Named("name") String name) {
         QuestionResultV1Dto result = new QuestionResultV1Dto();
         User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
-        Selection selection =
-            SelectionService.getSelection(Datastore.stringToKey(selectionKey));
+        Company company =
+            CompanyService.getCompany(Datastore.stringToKey(companyKey));
         try {
             if (user == null) {
                 logger.warning("user not found");
                 result.setResult(FAIL);
-            } else if (selection == null) {
+            } else if (company == null) {
                 logger.warning("company not found");
                 result.setResult(FAIL);
             } else {
-                Question question = QuestionService.createQuestion(user, selection, name);
+                Question question = QuestionService.createQuestion(user, company, name);
                 result.setResult(SUCCESS);
                 QuestionV1Dto dto = new QuestionV1Dto();
                 dto.setKey(Datastore.keyToString(question.getKey()));
@@ -61,11 +61,11 @@ public class QuestionV1EndPoint {
     }
 
     public List<QuestionV1Dto> getQuestions(
-            @Named("selectionKey") String selectionKey) {
+            @Named("companyKey") String companyKey) {
         List<QuestionV1Dto> resultList = new ArrayList<QuestionV1Dto>();
         List<Question> questionList =
-            QuestionService.getQuestionListBySelectionKey(Datastore
-                .stringToKey(selectionKey));
+            QuestionService.getQuestionListByCompanyKey(Datastore
+                .stringToKey(companyKey));
         for (Question question : questionList) {
             QuestionV1Dto dto = new QuestionV1Dto();
             dto.setKey(Datastore.keyToString(question.getKey()));

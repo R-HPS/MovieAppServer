@@ -22,11 +22,11 @@ public class Question implements Serializable {
     @Attribute(name = "n")
     private String name;
     
-    @Attribute(name = "sR")
-    private ModelRef<Selection> selectionRef = new ModelRef<Selection>(Selection.class);
-    
     @Attribute(name = "uR")
     private ModelRef<User> userRef = new ModelRef<User>(User.class);
+    
+    @Attribute(name = "cR")
+    private ModelRef<Company> companyRef = new ModelRef<Company>(Company.class);
     
     /**
      * Returns the key.
@@ -104,11 +104,11 @@ public class Question implements Serializable {
         this.name = name;
     }
 
-    public ModelRef<Selection> getSelectionRef() {
-        return selectionRef;
-    }
-
     public ModelRef<User> getUserRef() {
         return userRef;
+    }
+    
+    public ModelRef<Company> getCompanyRef() {
+        return companyRef;
     }
 }

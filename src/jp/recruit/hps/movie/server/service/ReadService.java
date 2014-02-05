@@ -3,7 +3,7 @@ package jp.recruit.hps.movie.server.service;
 import java.util.List;
 
 import jp.recruit.hps.movie.server.meta.ReadMeta;
-import jp.recruit.hps.movie.server.model.Selection;
+import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.Read;
 import jp.recruit.hps.movie.server.model.User;
 
@@ -15,25 +15,25 @@ import com.google.appengine.api.datastore.Transaction;
 public class ReadService {
     private static ReadMeta meta = ReadMeta.get();
 
-    public static Read createRead(User user, Selection selection) {
+    public static Read createRead(User user, Interview interview) {
         Read read = new Read();
         Key key = Datastore.allocateId(Read.class);
         read.setKey(key);
         read.getUserRef().setModel(user);
-        read.getSelectionRef().setModel(selection);
+        read.getInterviewRef().setModel(interview);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(read);
         tx.commit();
         return read;
     }
 
-    public static boolean isRead(Key userKey, Key selectionKey) {
+    public static boolean isRead(Key userKey, Key interviewRef) {
         try {
             if (Datastore
                 .query(meta)
                 .filter(
                     meta.userRef.equal(userKey),
-                    meta.selectionRef.equal(selectionKey))
+                    meta.interviewRef.equal(interviewRef))
                 .count() > 0) {
                 return true;
             } else {

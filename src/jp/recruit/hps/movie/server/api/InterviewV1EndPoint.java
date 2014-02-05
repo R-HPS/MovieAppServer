@@ -16,17 +16,16 @@ import jp.recruit.hps.movie.server.api.container.StringListContainer;
 import jp.recruit.hps.movie.server.api.dto.InterviewV1Dto;
 import jp.recruit.hps.movie.server.api.dto.QuestionWithCountV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
+import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.Interview.Category;
-import jp.recruit.hps.movie.server.model.InterviewQuestionMap;
 import jp.recruit.hps.movie.server.model.Question;
-import jp.recruit.hps.movie.server.model.Selection;
 import jp.recruit.hps.movie.server.model.User;
+import jp.recruit.hps.movie.server.service.CompanyService;
 import jp.recruit.hps.movie.server.service.InterviewQuestionMapService;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.QuestionService;
 import jp.recruit.hps.movie.server.service.ReadService;
-import jp.recruit.hps.movie.server.service.SelectionService;
 import jp.recruit.hps.movie.server.service.UserService;
 
 import org.slim3.datastore.Datastore;
@@ -46,7 +45,7 @@ public class InterviewV1EndPoint {
     private static final String FAIL = CommonConstant.FAIL;
 
     public InterviewV1Dto getInterview(@Named("userKey") String userKey,
-            @Named("selectionKey") String selectionKey,
+            @Named("companyKey") String companyKey,
             @Named("wasRead") boolean wasRead) {
         InterviewV1Dto result = new InterviewV1Dto();
 
@@ -56,10 +55,11 @@ public class InterviewV1EndPoint {
             if (user.getPoint() <= 0) {
                 return result;
             }
-            Selection selection =
-                SelectionService.getSelection(Datastore
-                    .stringToKey(selectionKey));
-            ReadService.createRead(user, selection);
+            Interview interview =
+                InterviewService.getInterviewByCompanyKeyAndUserKey(
+                    Datastore.stringToKey(companyKey),
+                    Datastore.stringToKey(userKey));
+            ReadService.createRead(user, interview);
             UserService.usePoint(user);
         }
 
@@ -75,7 +75,7 @@ public class InterviewV1EndPoint {
         int groupDiscussionCount = 0;
 
         for (Interview interview : InterviewService
-            .getInterviewListBySelectionKey(Datastore.stringToKey(selectionKey))) {
+            .getInterviewListByCompanyKey(Datastore.stringToKey(companyKey))) {
 
             if (interview.getCategory() == null) {
                 continue;
@@ -124,8 +124,8 @@ public class InterviewV1EndPoint {
         Map<Key, QuestionWithCountV1Dto> questionMap =
             new HashMap<Key, QuestionWithCountV1Dto>();
         List<Question> questionList =
-            QuestionService.getQuestionListBySelectionKey(Datastore
-                .stringToKey(selectionKey));
+            QuestionService.getQuestionListByCompanyKey(Datastore
+                .stringToKey(companyKey));
 
         for (Question question : questionList) {
             QuestionWithCountV1Dto dto = new QuestionWithCountV1Dto();
@@ -134,11 +134,9 @@ public class InterviewV1EndPoint {
             questionMap.put(question.getKey(), dto);
         }
         /* 質問数集計 */
-        for (InterviewQuestionMap map : InterviewQuestionMapService
-            .getInterviewQuestionMapBySelectionKey(Datastore
-                .stringToKey(selectionKey))) {
+        for (Question question : questionList) {
             QuestionWithCountV1Dto dto =
-                questionMap.get(map.getQuestionRef().getKey());
+                questionMap.get(question.getKey());
             dto.setCount(dto.getCount() + 1);
         }
         for (Question question : questionList) {
@@ -159,21 +157,21 @@ public class InterviewV1EndPoint {
     }
 
     public ResultV1Dto insertInterview(@Named("userKey") String userKey,
-            @Named("selectionKey") String selectionKey,
+            @Named("companyKey") String companyKey,
             @Named("startTime") Long startTime) {
         ResultV1Dto result = new ResultV1Dto();
         User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
-        Selection Selection =
-            SelectionService.getSelection(Datastore.stringToKey(selectionKey));
+        Company company =
+            CompanyService.getCompany(Datastore.stringToKey(companyKey));
         try {
             if (user == null) {
                 logger.warning("user not found");
                 result.setResult(FAIL);
-            } else if (Selection == null) {
+            } else if (company == null) {
                 logger.warning("company not found");
                 result.setResult(FAIL);
             } else {
-                InterviewService.createInterview(user, Selection, new Date(
+                InterviewService.createInterview(user, company, new Date(
                     startTime));
                 UserService.addPoint(user);
                 result.setResult(SUCCESS);
@@ -186,15 +184,15 @@ public class InterviewV1EndPoint {
     }
 
     public ResultV1Dto updateInterview(@Named("userKey") String userKey,
-            @Named("selectionKey") String selectionKey,
+            @Named("companyKey") String companyKey,
             @Named("duration") int duration,
             @Named("atmosphere") int atmosphere,
             @Named("category") int categoryValue,
             StringListContainer questionKeyListContainer) {
         ResultV1Dto result = new ResultV1Dto();
         Interview interview =
-            InterviewService.getInterviewBySelectionKeyAndUserKey(
-                Datastore.stringToKey(selectionKey),
+            InterviewService.getInterviewByCompanyKeyAndUserKey(
+                Datastore.stringToKey(companyKey),
                 Datastore.stringToKey(userKey));
         try {
             if (interview == null) {
