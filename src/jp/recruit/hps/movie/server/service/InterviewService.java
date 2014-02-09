@@ -29,6 +29,7 @@ public class InterviewService {
         BeanUtil.copy(input, interview);
         interview.setKey(key);
         interview.getUserRef().setModel(user);
+        interview.getCompanyRef().setModel(company);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(interview);
         tx.commit();
