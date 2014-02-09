@@ -10,11 +10,11 @@ import jp.recruit.hps.movie.common.CommonConstant;
 import jp.recruit.hps.movie.server.api.dto.QuestionResultV1Dto;
 import jp.recruit.hps.movie.server.api.dto.QuestionV1Dto;
 import jp.recruit.hps.movie.server.model.Company;
+import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.User;
-import jp.recruit.hps.movie.server.service.CompanyService;
+import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.QuestionService;
-import jp.recruit.hps.movie.server.service.UserService;
 
 import org.slim3.datastore.Datastore;
 
@@ -31,21 +31,18 @@ public class QuestionV1EndPoint {
     private static final String SUCCESS = CommonConstant.SUCCESS;
     private static final String FAIL = CommonConstant.FAIL;
 
-    public QuestionResultV1Dto createQuestion(@Named("userKey") String userKey,
-            @Named("companyKey") String companyKey,
+    public QuestionResultV1Dto createQuestion(
+            @Named("interviewKey") String interviewKey,
             @Named("name") String name) {
         QuestionResultV1Dto result = new QuestionResultV1Dto();
-        User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
-        Company company =
-            CompanyService.getCompany(Datastore.stringToKey(companyKey));
+        Interview interview = InterviewService.getInterview(Datastore.stringToKey(interviewKey));
         try {
-            if (user == null) {
-                logger.warning("user not found");
-                result.setResult(FAIL);
-            } else if (company == null) {
-                logger.warning("company not found");
+            if (interview == null) {
+                logger.warning("interview not found");
                 result.setResult(FAIL);
             } else {
+                User user = interview.getUserRef().getModel();
+                Company company = interview.getCompanyRef().getModel();
                 Question question = QuestionService.createQuestion(user, company, name);
                 result.setResult(SUCCESS);
                 QuestionV1Dto dto = new QuestionV1Dto();
