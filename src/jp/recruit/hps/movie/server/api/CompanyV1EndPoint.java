@@ -50,6 +50,7 @@ public class CompanyV1EndPoint {
                 Company company = interview.getCompanyRef().getModel();
                 CompanyV1Dto dto = new CompanyV1Dto();
                 dto.setKey(Datastore.keyToString(company.getKey()));
+                dto.setInterviewKey(Datastore.keyToString(interview.getKey()));
                 dto.setName(company.getName());
                 dto.setStartDate(interview.getStartDate().getTime());
                 dto.setWasRead(interview.getIsRead());

@@ -128,14 +128,12 @@ public class InterviewV1EndPoint {
         return result;
     }
 
-    public ResultV1Dto updateInterview(@Named("userKey") String userKey,
-            @Named("companyKey") String companyKey,
+    public ResultV1Dto updateInterview(
+            @Named("interviewKey") String interviewKey,
             @Named("startTime") Long startTime) {
         ResultV1Dto result = new ResultV1Dto();
         Interview interview =
-            InterviewService.getInterviewByCompanyKeyAndUserKey(
-                Datastore.stringToKey(companyKey),
-                Datastore.stringToKey(userKey));
+                InterviewService.getInterview(Datastore.stringToKey(interviewKey));
         try {
             if (interview == null) {
                 logger.warning("interview not found");

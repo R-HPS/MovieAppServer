@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 public class CompanyV1Dto {
     private String key;
     
+    private String interviewKey;
+    
     private String name;
         
     private boolean wasRead;
@@ -42,5 +44,13 @@ public class CompanyV1Dto {
 
     public void setStartDate(Long startDate) {
         this.startDate = startDate;
+    }
+
+    public String getInterviewKey() {
+        return interviewKey;
+    }
+
+    public void setInterviewKey(String interviewKey) {
+        this.interviewKey = interviewKey;
     }
 }
