@@ -48,7 +48,7 @@ public class InterviewService {
         interview.setStartDate(startDate);
         Datastore.put(interview);
     }
-    
+
     public static void readInterview(Interview interview) {
         interview.setIsRead(true);
         Datastore.put(interview);
@@ -63,14 +63,15 @@ public class InterviewService {
 
     }
 
-    public static Interview getInterviewByCompanyKeyAndUserKey(
-            Key companyKey, Key userKey) {
+    public static Interview getInterviewByCompanyKeyAndUserKey(Key companyKey,
+            Key userKey) {
         try {
             return Datastore
                 .query(meta)
                 .filter(
                     meta.companyRef.equal(companyKey),
                     meta.userRef.equal(userKey))
+                .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
                 .asList()
                 .get(0);
         } catch (Exception e) {
@@ -110,14 +111,14 @@ public class InterviewService {
             .filter(
                 meta.userRef.equal(userKey),
                 meta.companyRef.equal(companyKey))
+            .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
             .count();
     }
-    
+
     public static int getInterviewCountByCompanyKey(Key companyKey) {
         return Datastore
             .query(meta)
-            .filter(
-                meta.companyRef.equal(companyKey))
+            .filter(meta.companyRef.equal(companyKey))
             .count();
     }
 }

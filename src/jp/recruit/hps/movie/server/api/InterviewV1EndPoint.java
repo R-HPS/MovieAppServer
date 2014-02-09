@@ -119,7 +119,6 @@ public class InterviewV1EndPoint {
             } else {
                 InterviewService.createInterview(user, company, new Date(
                     startTime));
-                UserService.addPoint(user);
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {
@@ -142,9 +141,8 @@ public class InterviewV1EndPoint {
                 logger.warning("interview not found");
                 result.setResult(FAIL);
             } else {
-                InterviewService.updateInterview(
-                    interview,
-                    new Date(startTime));
+                InterviewService
+                    .updateInterview(interview, new Date(startTime));
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {
@@ -153,11 +151,13 @@ public class InterviewV1EndPoint {
         }
         return result;
     }
-    
-    public ResultV1Dto updateInterviewQuestions(@Named("userKey") String userKey,
+
+    public ResultV1Dto updateInterviewQuestions(
+            @Named("userKey") String userKey,
             @Named("companyKey") String companyKey,
             StringListContainer questionKeyListContainer) {
         ResultV1Dto result = new ResultV1Dto();
+        User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
         Interview interview =
             InterviewService.getInterviewByCompanyKeyAndUserKey(
                 Datastore.stringToKey(companyKey),
@@ -178,6 +178,7 @@ public class InterviewV1EndPoint {
                         question,
                         interview);
                 }
+                UserService.addPoint(user);
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {
