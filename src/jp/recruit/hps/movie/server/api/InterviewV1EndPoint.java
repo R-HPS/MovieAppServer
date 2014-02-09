@@ -153,20 +153,18 @@ public class InterviewV1EndPoint {
     }
 
     public ResultV1Dto updateInterviewQuestions(
-            @Named("userKey") String userKey,
-            @Named("companyKey") String companyKey,
+            @Named("interviewKey") String interviewKey,
             StringListContainer questionKeyListContainer) {
         ResultV1Dto result = new ResultV1Dto();
-        User user = UserService.getUserByKey(Datastore.stringToKey(userKey));
         Interview interview =
-            InterviewService.getInterviewByCompanyKeyAndUserKey(
-                Datastore.stringToKey(companyKey),
-                Datastore.stringToKey(userKey));
+            InterviewService.getInterview(Datastore.stringToKey(interviewKey));
+
         try {
             if (interview == null) {
                 logger.warning("interview not found");
                 result.setResult(FAIL);
             } else {
+                User user = interview.getUserRef().getModel();
                 List<Key> questionKeyList = new ArrayList<Key>();
                 for (String questionKey : questionKeyListContainer.getList()) {
                     questionKeyList.add(Datastore.stringToKey(questionKey));
