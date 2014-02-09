@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Random;
 
 import jp.recruit.hps.movie.server.model.Company;
-import jp.recruit.hps.movie.server.model.Interview.Category;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
 import jp.recruit.hps.movie.server.service.InterviewService;
@@ -50,16 +49,7 @@ public class CreateSampleInterviewController extends Controller {
                     company1.getKey()) == 0) {
                 Date startDate = new Date();
                 startDate.setTime(1380326400000l + count++ * ONE_HOUR);
-                int duration = 30;
-                int atmosphere = 0;
-                Category category = Category.INDIVIDUAL;
-                InterviewService.createInterview(
-                    user,
-                    company1,
-                    startDate,
-                    duration,
-                    atmosphere,
-                    category);
+                InterviewService.createInterview(user, company1, startDate);
                 for (int i = 0; i < questions.length; i++) {
                     int a = rand.nextInt() % questions.length;
                     if (i < (a < 0 ? a + questions.length : a)) {
@@ -76,16 +66,7 @@ public class CreateSampleInterviewController extends Controller {
                     company2.getKey()) == 0) {
                 Date startDate = new Date();
                 startDate.setTime(1380326400000l + (1 + count++ * ONE_HOUR));
-                int duration = 20;
-                int atmosphere = 1;
-                Category category = Category.GROUP;
-                InterviewService.createInterview(
-                    user,
-                    company2,
-                    startDate,
-                    duration,
-                    atmosphere,
-                    category);
+                InterviewService.createInterview(user, company2, startDate);
                 for (int i = 0; i < questions.length; i++) {
                     int a = rand.nextInt() % questions.length;
                     if (i < (a < 0 ? a + questions.length : a)) {
@@ -102,16 +83,7 @@ public class CreateSampleInterviewController extends Controller {
                     company3.getKey()) == 0) {
                 Date startDate = new Date();
                 startDate.setTime(1380326400000l + (2 + count++ * ONE_HOUR));
-                int duration = 50;
-                int atmosphere = 2;
-                Category category = Category.GROUP_DISCUSSION;
-                InterviewService.createInterview(
-                    user,
-                    company3,
-                    startDate,
-                    duration,
-                    atmosphere,
-                    category);
+                InterviewService.createInterview(user, company3, startDate);
                 for (int i = 0; i < questions.length; i++) {
                     int a = rand.nextInt() % questions.length;
                     if (i < (a < 0 ? a + questions.length : a)) {

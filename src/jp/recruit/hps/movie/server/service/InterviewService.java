@@ -8,7 +8,6 @@ import java.util.Map;
 import jp.recruit.hps.movie.server.meta.InterviewMeta;
 import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
-import jp.recruit.hps.movie.server.model.Interview.Category;
 import jp.recruit.hps.movie.server.model.User;
 
 import org.slim3.datastore.Datastore;
@@ -37,27 +36,14 @@ public class InterviewService {
     }
 
     public static Interview createInterview(User user, Company company,
-            Date startDate, int duration, int atmosphere, Category category) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("startDate", startDate);
-        map.put("duration", duration);
-        map.put("atmosphere", atmosphere);
-        map.put("category", category);
-        return createInterview(map, user, company);
-    }
-
-    public static Interview createInterview(User user, Company company,
             Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         return createInterview(map, user, company);
     }
 
-    public static void updateInterview(Interview interview, int duration,
-            int atmosphere, Category category) {
-        interview.setDuration(duration);
-        interview.setAtmosphere(atmosphere);
-        interview.setCategory(category);
+    public static void updateInterview(Interview interview, Date startDate) {
+        interview.setStartDate(startDate);
         Datastore.put(interview);
     }
 

@@ -18,7 +18,6 @@ import jp.recruit.hps.movie.server.api.dto.QuestionWithCountV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
 import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
-import jp.recruit.hps.movie.server.model.Interview.Category;
 import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
@@ -66,60 +65,9 @@ public class InterviewV1EndPoint {
         List<QuestionWithCountV1Dto> resultList =
             new ArrayList<QuestionWithCountV1Dto>();
 
-        int interviewCount = 0;
-        long durationSum = 0l;
-        long atmosphereSum = 0l;
-
-        int individualCount = 0;
-        int groupCount = 0;
-        int groupDiscussionCount = 0;
-
-        for (Interview interview : InterviewService
-            .getInterviewListByCompanyKey(Datastore.stringToKey(companyKey))) {
-
-            if (interview.getCategory() == null) {
-                continue;
-            }
-
-            interviewCount++;
-            durationSum += interview.getDuration();
-            atmosphereSum += interview.getAtmosphere();
-
-            switch (interview.getCategory()) {
-            case INDIVIDUAL:
-                individualCount++;
-                break;
-            case GROUP:
-                groupCount++;
-                break;
-            case GROUP_DISCUSSION:
-                groupDiscussionCount++;
-                break;
-            default:
-            }
-        }
-
-        if (interviewCount == 0) {
-            result.setAtmosphereAvg(0);
-            result.setDurationAvg(0);
-        } else {
-            result.setAtmosphereAvg((double) atmosphereSum
-                / (double) interviewCount);
-            result.setDurationAvg((double) durationSum
-                / (double) interviewCount);
-        }
-
-        if (individualCount > groupCount) {
-            if (individualCount > groupDiscussionCount) {
-                result.setCategory(0);
-            } else {
-                result.setCategory(2);
-            }
-        } else if (groupCount > groupDiscussionCount) {
-            result.setCategory(1);
-        } else {
-            result.setCategory(2);
-        }
+        int interviewCount =
+            InterviewService.getInterviewCountByCompanyKey(Datastore
+                .stringToKey(companyKey));
 
         Map<Key, QuestionWithCountV1Dto> questionMap =
             new HashMap<Key, QuestionWithCountV1Dto>();
@@ -135,8 +83,7 @@ public class InterviewV1EndPoint {
         }
         /* 質問数集計 */
         for (Question question : questionList) {
-            QuestionWithCountV1Dto dto =
-                questionMap.get(question.getKey());
+            QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
             dto.setCount(dto.getCount() + 1);
         }
         for (Question question : questionList) {
@@ -185,9 +132,31 @@ public class InterviewV1EndPoint {
 
     public ResultV1Dto updateInterview(@Named("userKey") String userKey,
             @Named("companyKey") String companyKey,
-            @Named("duration") int duration,
-            @Named("atmosphere") int atmosphere,
-            @Named("category") int categoryValue,
+            @Named("startTime") Long startTime) {
+        ResultV1Dto result = new ResultV1Dto();
+        Interview interview =
+            InterviewService.getInterviewByCompanyKeyAndUserKey(
+                Datastore.stringToKey(companyKey),
+                Datastore.stringToKey(userKey));
+        try {
+            if (interview == null) {
+                logger.warning("interview not found");
+                result.setResult(FAIL);
+            } else {
+                InterviewService.updateInterview(
+                    interview,
+                    new Date(startTime));
+                result.setResult(SUCCESS);
+            }
+        } catch (Exception e) {
+            logger.warning("Exception" + e);
+            result.setResult(FAIL);
+        }
+        return result;
+    }
+    
+    public ResultV1Dto updateInterviewQuestions(@Named("userKey") String userKey,
+            @Named("companyKey") String companyKey,
             StringListContainer questionKeyListContainer) {
         ResultV1Dto result = new ResultV1Dto();
         Interview interview =
@@ -199,26 +168,6 @@ public class InterviewV1EndPoint {
                 logger.warning("interview not found");
                 result.setResult(FAIL);
             } else {
-                Category category;
-                switch (categoryValue) {
-                case 0:
-                    category = Category.INDIVIDUAL;
-                    break;
-                case 1:
-                    category = Category.GROUP;
-                    break;
-                case 2:
-                    category = Category.GROUP_DISCUSSION;
-                    break;
-                default:
-                    category = Category.INDIVIDUAL;
-                }
-
-                InterviewService.updateInterview(
-                    interview,
-                    duration,
-                    atmosphere,
-                    category);
                 List<Key> questionKeyList = new ArrayList<Key>();
                 for (String questionKey : questionKeyListContainer.getList()) {
                     questionKeyList.add(Datastore.stringToKey(questionKey));

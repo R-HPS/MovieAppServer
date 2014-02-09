@@ -29,19 +29,7 @@ public class Interview implements Serializable {
     @Attribute(name = "sD")
     private Date startDate;
 
-    @Attribute(name = "d")
-    private int duration;
     
-    @Attribute(name = "a")
-    private int atmosphere;
-
-    @Attribute(name = "c")    
-    public Category category;
-
-    public enum Category {
-        INDIVIDUAL, GROUP, GROUP_DISCUSSION
-    };
-
     /**
      * Returns the key.
      * 
@@ -124,29 +112,5 @@ public class Interview implements Serializable {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public int getAtmosphere() {
-        return atmosphere;
-    }
-
-    public void setAtmosphere(int atmosphere) {
-        this.atmosphere = atmosphere;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 }
