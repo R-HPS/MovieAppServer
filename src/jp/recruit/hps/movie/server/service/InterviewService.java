@@ -39,11 +39,17 @@ public class InterviewService {
             Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
+        map.put("isRead", false);
         return createInterview(map, user, company);
     }
 
     public static void updateInterview(Interview interview, Date startDate) {
         interview.setStartDate(startDate);
+        Datastore.put(interview);
+    }
+    
+    public static void readInterview(Interview interview) {
+        interview.setIsRead(true);
         Datastore.put(interview);
     }
 

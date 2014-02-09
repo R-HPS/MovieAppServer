@@ -24,7 +24,6 @@ import jp.recruit.hps.movie.server.service.CompanyService;
 import jp.recruit.hps.movie.server.service.InterviewQuestionMapService;
 import jp.recruit.hps.movie.server.service.InterviewService;
 import jp.recruit.hps.movie.server.service.QuestionService;
-import jp.recruit.hps.movie.server.service.ReadService;
 import jp.recruit.hps.movie.server.service.UserService;
 
 import org.slim3.datastore.Datastore;
@@ -58,7 +57,7 @@ public class InterviewV1EndPoint {
                 InterviewService.getInterviewByCompanyKeyAndUserKey(
                     Datastore.stringToKey(companyKey),
                     Datastore.stringToKey(userKey));
-            ReadService.createRead(user, interview);
+            InterviewService.readInterview(interview);
             UserService.usePoint(user);
         }
 
