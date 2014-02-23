@@ -3,6 +3,7 @@ package jp.recruit.hps.movie.server.service;
 import java.util.List;
 
 import jp.recruit.hps.movie.server.meta.InterviewQuestionMapMeta;
+import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
 import jp.recruit.hps.movie.server.model.InterviewQuestionMap;
 import jp.recruit.hps.movie.server.model.Question;
@@ -17,10 +18,11 @@ public class InterviewQuestionMapService {
         .get();
 
     public static InterviewQuestionMap createInterviewQuestionMap(
-            Question question, Interview interview) {
+            Company company, Question question, Interview interview) {
         InterviewQuestionMap map = new InterviewQuestionMap();
         Key key = Datastore.allocateId(InterviewQuestionMap.class);
         map.setKey(key);
+        map.getCompanyRef().setModel(company);
         map.getQuestionRef().setModel(question);
         map.getInterviewRef().setModel(interview);
         Transaction tx = Datastore.beginTransaction();

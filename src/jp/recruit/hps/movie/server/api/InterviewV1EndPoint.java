@@ -180,6 +180,7 @@ public class InterviewV1EndPoint {
                     QuestionService.getQuestionListByKeyList(questionKeyList);
                 for (Question question : questionList) {
                     InterviewQuestionMapService.createInterviewQuestionMap(
+                        interview.getCompanyRef().getModel(),
                         question,
                         interview);
                 }
