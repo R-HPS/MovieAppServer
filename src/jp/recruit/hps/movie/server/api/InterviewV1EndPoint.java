@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.inject.Named;
@@ -18,6 +20,7 @@ import jp.recruit.hps.movie.server.api.dto.QuestionWithCountV1Dto;
 import jp.recruit.hps.movie.server.api.dto.ResultV1Dto;
 import jp.recruit.hps.movie.server.model.Company;
 import jp.recruit.hps.movie.server.model.Interview;
+import jp.recruit.hps.movie.server.model.InterviewQuestionMap;
 import jp.recruit.hps.movie.server.model.Question;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.service.CompanyService;
@@ -64,30 +67,36 @@ public class InterviewV1EndPoint {
         List<QuestionWithCountV1Dto> resultList =
             new ArrayList<QuestionWithCountV1Dto>();
 
-        int interviewCount =
-            InterviewService.getInterviewCountByCompanyKey(Datastore
-                .stringToKey(companyKey));
+        Set<Interview> interviewSet = new HashSet<Interview>();
 
         Map<Key, QuestionWithCountV1Dto> questionMap =
             new HashMap<Key, QuestionWithCountV1Dto>();
-        List<Question> questionList =
-            QuestionService.getQuestionListByCompanyKey(Datastore
-                .stringToKey(companyKey));
-
-        for (Question question : questionList) {
-            QuestionWithCountV1Dto dto = new QuestionWithCountV1Dto();
-            dto.setKey(Datastore.keyToString(question.getKey()));
-            dto.setName(question.getName());
-            questionMap.put(question.getKey(), dto);
+        List<InterviewQuestionMap> interviewQuestionMapList =
+            InterviewQuestionMapService
+                .getInterviewQuestionMapListByCompanyKey(Datastore
+                    .stringToKey(companyKey));
+        
+        for (InterviewQuestionMap interviewQuestionMap : interviewQuestionMapList) {
+            Question question = interviewQuestionMap.getQuestionRef().getModel();
+            if (questionMap.get(question.getKey()) == null) {
+                QuestionWithCountV1Dto dto = new QuestionWithCountV1Dto();
+                dto.setKey(Datastore.keyToString(question.getKey()));
+                dto.setName(question.getName());
+                questionMap.put(question.getKey(), dto);
+            }
+            interviewSet.add(interviewQuestionMap.getInterviewRef().getModel());
         }
         /* 質問数集計 */
-        for (Question question : questionList) {
+        for (InterviewQuestionMap interviewQuestionMap : interviewQuestionMapList) {
+            Question question = interviewQuestionMap.getQuestionRef().getModel();
             QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
             dto.setCount(dto.getCount() + 1);
         }
-        for (Question question : questionList) {
+        for (InterviewQuestionMap interviewQuestionMap : interviewQuestionMapList) {
+            Question question = interviewQuestionMap.getQuestionRef().getModel();
             QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
-            dto.setPercent((double) dto.getCount() / (double) interviewCount);
+            dto.setPercent((double) dto.getCount()
+                / (double) interviewSet.size());
         }
         Collections.sort(resultList, new Comparator<QuestionWithCountV1Dto>() {
             public int compare(QuestionWithCountV1Dto o1,
@@ -133,7 +142,7 @@ public class InterviewV1EndPoint {
             @Named("startTime") Long startTime) {
         ResultV1Dto result = new ResultV1Dto();
         Interview interview =
-                InterviewService.getInterview(Datastore.stringToKey(interviewKey));
+            InterviewService.getInterview(Datastore.stringToKey(interviewKey));
         try {
             if (interview == null) {
                 logger.warning("interview not found");

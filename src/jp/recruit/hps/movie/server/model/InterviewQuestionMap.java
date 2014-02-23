@@ -19,6 +19,9 @@ public class InterviewQuestionMap implements Serializable {
     @Attribute(version = true)
     private Long version;
 
+    @Attribute(name = "cR")
+    private ModelRef<Company> companyRef = new ModelRef<Company>(Company.class);
+    
     @Attribute(name = "iR")
     private ModelRef<Interview> interviewRef = new ModelRef<Interview>(Interview.class);
 
@@ -91,6 +94,10 @@ public class InterviewQuestionMap implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public ModelRef<Company> getCompanyRef() {
+        return companyRef;
     }
 
     public ModelRef<Interview> getInterviewRef() {

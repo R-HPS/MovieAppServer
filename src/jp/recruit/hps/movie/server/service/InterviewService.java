@@ -114,12 +114,4 @@ public class InterviewService {
             .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
             .count();
     }
-
-    public static int getInterviewCountByCompanyKey(Key companyKey) {
-        return Datastore
-            .query(meta)
-            .filter(meta.companyRef.equal(companyKey))
-            .filterInMemory(meta.startDate.lessThanOrEqual(new Date()))
-            .count();
-    }
 }
