@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import jp.recruit.hps.movie.server.meta.UserMeta;
-import jp.recruit.hps.movie.server.model.University;
 import jp.recruit.hps.movie.server.model.User;
 import jp.recruit.hps.movie.server.model.User.State;
 import jp.recruit.hps.movie.server.utils.Encrypter;
@@ -19,14 +18,13 @@ import com.google.appengine.api.datastore.Transaction;
 public class UserService {
     private static UserMeta meta = UserMeta.get();
 
-    private static User createUser(Map<String, Object> input, University university) {
+    private static User createUser(Map<String, Object> input) {
         User user = new User();
         Key key = Datastore.allocateId(User.class);
         BeanUtil.copy(input, user);
         user.setKey(key);
         user.setId(key.getId());
-        user.getUniversityRef().setModel(university);
-        user.setPoint(3);
+        user.setPoint(Integer.MAX_VALUE);
         user.setState(State.PAUSE);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(user);
@@ -34,11 +32,11 @@ public class UserService {
         return user;
     }
 
-    public static User createUser(University university, String email, String password) {
+    public static User createUser(String email, String password) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("email", email);
         map.put("password", Encrypter.getHash(password));
-        return createUser(map,university);
+        return createUser(map);
     }
 
     public static User getUserByKey(Key key) {

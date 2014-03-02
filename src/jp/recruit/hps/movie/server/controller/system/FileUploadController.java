@@ -1,4 +1,4 @@
-package jp.recruit.hps.movie.server.controller;
+package jp.recruit.hps.movie.server.controller.system;
 
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.slim3.datastore.Attribute;
 import org.slim3.datastore.Model;
-import org.slim3.datastore.ModelRef;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -34,9 +33,6 @@ public class User implements Serializable {
     @Attribute(name = "s")
     private State state;
     
-    @Attribute(name = "uR")
-    private ModelRef<University> universityRef = new ModelRef<University>(University.class);
-
     public enum State {
         ACTIVE, PAUSE, FORBID
     };
@@ -148,8 +144,5 @@ public class User implements Serializable {
     public void setState(State state) {
         this.state = state;
     }
-    
-    public ModelRef<University> getUniversityRef() {
-        return universityRef;
-    }
+   
 }
