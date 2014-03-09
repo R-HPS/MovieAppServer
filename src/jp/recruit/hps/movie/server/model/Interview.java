@@ -30,10 +30,8 @@ public class Interview implements Serializable {
     private Date startDate;
     
     @Attribute(name = "uD")
-    private Date updateDate;
-    
-    @Attribute(name = "iR")
-    private Boolean isRead;
+    private Date updateDate;   
+  
 
     
     /**
@@ -118,14 +116,6 @@ public class Interview implements Serializable {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-    }
-
-    public Boolean getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(Boolean isRead) {
-        this.isRead = isRead;
     }
 
     public Date getUpdateDate() {

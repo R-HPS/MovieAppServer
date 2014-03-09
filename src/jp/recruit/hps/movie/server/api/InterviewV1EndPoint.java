@@ -46,24 +46,8 @@ public class InterviewV1EndPoint {
     private static final String FAIL = CommonConstant.FAIL;
 
     public InterviewV1Dto getInterview(@Named("userKey") String userKey,
-            @Named("companyKey") String companyKey,
-            @Named("wasRead") boolean wasRead) {
+            @Named("companyKey") String companyKey) {
         InterviewV1Dto result = new InterviewV1Dto();
-
-        if (!wasRead) {
-            User user =
-                UserService.getUserByKey(Datastore.stringToKey(userKey));
-            if (user.getPoint() <= 0) {
-                return result;
-            }
-            Interview interview =
-                InterviewService.getInterviewByCompanyKeyAndUserKey(
-                    Datastore.stringToKey(companyKey),
-                    Datastore.stringToKey(userKey));
-            InterviewService.readInterview(interview);
-            UserService.usePoint(user);
-        }
-
         List<QuestionWithCountV1Dto> resultList =
             new ArrayList<QuestionWithCountV1Dto>();
 
@@ -75,9 +59,10 @@ public class InterviewV1EndPoint {
             InterviewQuestionMapService
                 .getInterviewQuestionMapListByCompanyKey(Datastore
                     .stringToKey(companyKey));
-        
+
         for (InterviewQuestionMap interviewQuestionMap : interviewQuestionMapList) {
-            Question question = interviewQuestionMap.getQuestionRef().getModel();
+            Question question =
+                interviewQuestionMap.getQuestionRef().getModel();
             if (questionMap.get(question.getKey()) == null) {
                 QuestionWithCountV1Dto dto = new QuestionWithCountV1Dto();
                 dto.setKey(Datastore.keyToString(question.getKey()));
@@ -88,12 +73,14 @@ public class InterviewV1EndPoint {
         }
         /* 質問数集計 */
         for (InterviewQuestionMap interviewQuestionMap : interviewQuestionMapList) {
-            Question question = interviewQuestionMap.getQuestionRef().getModel();
+            Question question =
+                interviewQuestionMap.getQuestionRef().getModel();
             QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
             dto.setCount(dto.getCount() + 1);
         }
         for (InterviewQuestionMap interviewQuestionMap : interviewQuestionMapList) {
-            Question question = interviewQuestionMap.getQuestionRef().getModel();
+            Question question =
+                interviewQuestionMap.getQuestionRef().getModel();
             QuestionWithCountV1Dto dto = questionMap.get(question.getKey());
             dto.setPercent((double) dto.getCount()
                 / (double) interviewSet.size());

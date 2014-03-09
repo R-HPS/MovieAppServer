@@ -30,6 +30,7 @@ public class CompanyService {
     public static Company createCompany(String name) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);
+        map.put("interviewCount", 0);
         return createCompany(map);
     }
 
@@ -65,6 +66,18 @@ public class CompanyService {
             return Datastore
                 .query(meta)
                 .filterInMemory(meta.name.contains(keyword))
+                .asList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public static List<Company> getPopularCompanyList(int limit) {
+        try {
+            return Datastore
+                .query(meta)
+                .sort(meta.interviewCount.desc)
+                .limit(limit)
                 .asList();
         } catch (Exception e) {
             return null;

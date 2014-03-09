@@ -21,6 +21,9 @@ public class Company implements Serializable {
     @Attribute(name = "n")
     private String name;
     
+    @Attribute(name = "iC")
+    private int interviewCount;
+    
     /**
      * Returns the key.
      * 
@@ -95,6 +98,14 @@ public class Company implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getInterviewCount() {
+        return interviewCount;
+    }
+
+    public void setInterviewCount(int interviewCount) {
+        this.interviewCount = interviewCount;
     }
 
 }

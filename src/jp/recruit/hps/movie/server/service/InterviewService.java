@@ -30,8 +30,10 @@ public class InterviewService {
         interview.setKey(key);
         interview.getUserRef().setModel(user);
         interview.getCompanyRef().setModel(company);
+        company.setInterviewCount(company.getInterviewCount() + 1);
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(interview);
+        Datastore.put(company);
         tx.commit();
         return interview;
     }
@@ -48,11 +50,6 @@ public class InterviewService {
     public static void updateInterview(Interview interview, Date startDate) {
         interview.setStartDate(startDate);
         interview.setUpdateDate(new Date());
-        Datastore.put(interview);
-    }
-
-    public static void readInterview(Interview interview) {
-        interview.setIsRead(true);
         Datastore.put(interview);
     }
 

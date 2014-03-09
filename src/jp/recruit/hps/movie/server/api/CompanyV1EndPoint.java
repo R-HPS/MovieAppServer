@@ -23,7 +23,7 @@ import com.google.api.server.spi.config.Api;
 public class CompanyV1EndPoint {
     private final static Logger logger = Logger
         .getLogger(CompanyV1EndPoint.class.getName());
-    private final static int NEW_INTERVIEW_LIMIT = 20;
+    private final static int POPULAR_COMPANY_LIMIT = 20;
 
     public List<CompanyV1Dto> searchCompany(@Named("keyword") String keyword) {
         List<CompanyV1Dto> result = new ArrayList<CompanyV1Dto>();
@@ -54,7 +54,6 @@ public class CompanyV1EndPoint {
                 dto.setInterviewKey(Datastore.keyToString(interview.getKey()));
                 dto.setName(company.getName());
                 dto.setStartDate(interview.getStartDate().getTime());
-                dto.setWasRead(interview.getIsRead());
                 result.add(dto);
             }
         } catch (Exception e) {
@@ -63,18 +62,16 @@ public class CompanyV1EndPoint {
         return result;
     }
     
-    public List<CompanyV1Dto> getNewCompanyList() {
+    public List<CompanyV1Dto> getPopularCompanyList() {
         List<CompanyV1Dto> result = new ArrayList<CompanyV1Dto>();
         try {
-            List<Interview> interviewList =
-                InterviewService.getNewInterviewList(NEW_INTERVIEW_LIMIT);
-            for (Interview interview : interviewList) {
-                Company company = interview.getCompanyRef().getModel();
+            List<Company> companyList =
+                CompanyService.getPopularCompanyList(POPULAR_COMPANY_LIMIT);
+            for (Company company : companyList) {
                 CompanyV1Dto dto = new CompanyV1Dto();
                 dto.setKey(Datastore.keyToString(company.getKey()));
                 dto.setName(company.getName());
-                dto.setStartDate(interview.getStartDate().getTime());
-                dto.setWasRead(interview.getIsRead());
+                dto.setInterviewCount(company.getInterviewCount());
                 result.add(dto);
             }
         } catch (Exception e) {
@@ -82,5 +79,4 @@ public class CompanyV1EndPoint {
         }
         return result;
     }
-
 }

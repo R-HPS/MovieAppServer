@@ -9,9 +9,9 @@ public class CompanyV1Dto {
     private String interviewKey;
     
     private String name;
-        
-    private boolean wasRead;
     
+    private int interviewCount;
+            
     private Long startDate;
 
     public String getName() {
@@ -30,14 +30,6 @@ public class CompanyV1Dto {
         this.key = key;
     }
 
-    public boolean isWasRead() {
-        return wasRead;
-    }
-
-    public void setWasRead(boolean wasRead) {
-        this.wasRead = wasRead;
-    }
-
     public Long getStartDate() {
         return startDate;
     }
@@ -52,5 +44,13 @@ public class CompanyV1Dto {
 
     public void setInterviewKey(String interviewKey) {
         this.interviewKey = interviewKey;
+    }
+
+    public int getInterviewCount() {
+        return interviewCount;
+    }
+
+    public void setInterviewCount(int interviewCount) {
+        this.interviewCount = interviewCount;
     }
 }
