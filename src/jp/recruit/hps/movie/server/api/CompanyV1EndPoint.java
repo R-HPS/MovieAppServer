@@ -23,6 +23,7 @@ import com.google.api.server.spi.config.Api;
 public class CompanyV1EndPoint {
     private final static Logger logger = Logger
         .getLogger(CompanyV1EndPoint.class.getName());
+    private final static int NEW_INTERVIEW_LIMIT = 20;
 
     public List<CompanyV1Dto> searchCompany(@Named("keyword") String keyword) {
         List<CompanyV1Dto> result = new ArrayList<CompanyV1Dto>();
@@ -51,6 +52,26 @@ public class CompanyV1EndPoint {
                 CompanyV1Dto dto = new CompanyV1Dto();
                 dto.setKey(Datastore.keyToString(company.getKey()));
                 dto.setInterviewKey(Datastore.keyToString(interview.getKey()));
+                dto.setName(company.getName());
+                dto.setStartDate(interview.getStartDate().getTime());
+                dto.setWasRead(interview.getIsRead());
+                result.add(dto);
+            }
+        } catch (Exception e) {
+            logger.warning(e.getMessage());
+        }
+        return result;
+    }
+    
+    public List<CompanyV1Dto> getNewCompanyList() {
+        List<CompanyV1Dto> result = new ArrayList<CompanyV1Dto>();
+        try {
+            List<Interview> interviewList =
+                InterviewService.getNewInterviewList(NEW_INTERVIEW_LIMIT);
+            for (Interview interview : interviewList) {
+                Company company = interview.getCompanyRef().getModel();
+                CompanyV1Dto dto = new CompanyV1Dto();
+                dto.setKey(Datastore.keyToString(company.getKey()));
                 dto.setName(company.getName());
                 dto.setStartDate(interview.getStartDate().getTime());
                 dto.setWasRead(interview.getIsRead());

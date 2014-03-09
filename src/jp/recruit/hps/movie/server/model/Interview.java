@@ -29,6 +29,9 @@ public class Interview implements Serializable {
     @Attribute(name = "sD")
     private Date startDate;
     
+    @Attribute(name = "uD")
+    private Date updateDate;
+    
     @Attribute(name = "iR")
     private Boolean isRead;
 
@@ -123,5 +126,13 @@ public class Interview implements Serializable {
 
     public void setIsRead(Boolean isRead) {
         this.isRead = isRead;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

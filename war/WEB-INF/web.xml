@@ -116,7 +116,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>jp.recruit.hps.movie.server.api.CompanyV1EndPoint,jp.recruit.hps.movie.server.api.InterviewV1EndPoint,jp.recruit.hps.movie.server.api.LoginV1Endpoint,jp.recruit.hps.movie.server.api.QuestionV1EndPoint,jp.recruit.hps.movie.server.api.RegisterV1Endpoint,jp.recruit.hps.movie.server.api.UserV1Endpoint</param-value>
+   <param-value>jp.recruit.hps.movie.server.api.CompanyV1EndPoint,jp.recruit.hps.movie.server.api.InterviewV1EndPoint,jp.recruit.hps.movie.server.api.LoginV1Endpoint,jp.recruit.hps.movie.server.api.QuestionV1EndPoint,jp.recruit.hps.movie.server.api.UserV1Endpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>

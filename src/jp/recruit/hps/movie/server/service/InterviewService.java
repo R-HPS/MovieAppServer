@@ -41,11 +41,13 @@ public class InterviewService {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
         map.put("isRead", false);
+        map.put("updateDate", new Date());
         return createInterview(map, user, company);
     }
 
     public static void updateInterview(Interview interview, Date startDate) {
         interview.setStartDate(startDate);
+        interview.setUpdateDate(new Date());
         Datastore.put(interview);
     }
 
@@ -99,6 +101,18 @@ public class InterviewService {
                 .filter(meta.userRef.equal(key))
                 .filterInMemory(meta.startDate.greaterThanOrEqual(new Date()))
                 .sortInMemory(meta.startDate.asc)
+                .asList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public static List<Interview> getNewInterviewList(int limit) {
+        try {
+            return Datastore
+                .query(meta)
+                .sort(meta.updateDate.desc)
+                .limit(limit)
                 .asList();
         } catch (Exception e) {
             return null;
