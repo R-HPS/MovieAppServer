@@ -31,10 +31,14 @@ public class InterviewService {
         interview.getUserRef().setModel(user);
         interview.getCompanyRef().setModel(company);
         company.setInterviewCount(company.getInterviewCount() + 1);
+        
         Transaction tx = Datastore.beginTransaction();
         Datastore.put(interview);
-        Datastore.put(company);
         tx.commit();
+        
+        Transaction tx2 = Datastore.beginTransaction();
+        Datastore.put(company);
+        tx2.commit();
         return interview;
     }
 

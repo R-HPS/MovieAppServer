@@ -119,6 +119,9 @@ public class InterviewV1EndPoint {
             }
         } catch (Exception e) {
             logger.warning("Exception" + e);
+            for (StackTraceElement s : e.getStackTrace()) {
+                logger.warning(s.toString());
+            }
             result.setResult(FAIL);
         }
         return result;
