@@ -42,7 +42,6 @@ public class InterviewService {
             Date startDate) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startDate", startDate);
-        map.put("isRead", false);
         map.put("updateDate", new Date());
         return createInterview(map, user, company);
     }
