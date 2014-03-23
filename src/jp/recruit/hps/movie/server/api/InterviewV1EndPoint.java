@@ -161,7 +161,6 @@ public class InterviewV1EndPoint {
                 logger.warning("interview not found");
                 result.setResult(FAIL);
             } else {
-                User user = interview.getUserRef().getModel();
                 List<Key> questionKeyList = new ArrayList<Key>();
                 for (String questionKey : questionKeyListContainer.getList()) {
                     questionKeyList.add(Datastore.stringToKey(questionKey));
@@ -174,7 +173,6 @@ public class InterviewV1EndPoint {
                         question,
                         interview);
                 }
-                UserService.addPoint(user);
                 result.setResult(SUCCESS);
             }
         } catch (Exception e) {

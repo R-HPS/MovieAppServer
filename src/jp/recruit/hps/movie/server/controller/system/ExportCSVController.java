@@ -5,11 +5,13 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import jp.recruit.hps.movie.server.service.CompanyService;
-
 import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 import org.slim3.controller.upload.FileItem;
+
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 
 public class ExportCSVController extends Controller {
 
@@ -21,12 +23,33 @@ public class ExportCSVController extends Controller {
         BufferedReader br =
             new BufferedReader(new InputStreamReader(is, "UTF-8"));
         String name = null;
-
+        StringBuffer companyNames = new StringBuffer();
+        int i = 0;
         while ((name = br.readLine()) != null) {
-            if (CompanyService.getCompanyCount(name) == 0) {
-                CompanyService.createCompany(name);
+            if (i > 0) {
+                companyNames.append(",");
+            }
+            i++;
+            companyNames.append(name);
+            if (i > 300) {
+                TaskOptions taskOptions =
+                    TaskOptions.Builder
+                        .withUrl("/system/registerCompany")
+                        .param("companyNames", companyNames.toString());
+                Queue defaultQueue = QueueFactory.getDefaultQueue();
+                defaultQueue.add(taskOptions);
+
+                companyNames = new StringBuffer();
+                i = 0;
             }
         }
+
+        TaskOptions taskOptions =
+            TaskOptions.Builder.withUrl("/system/registerCompany").param(
+                "companyNames",
+                companyNames.toString());
+        Queue defaultQueue = QueueFactory.getDefaultQueue();
+        defaultQueue.add(taskOptions);
         return null;
 
     }
